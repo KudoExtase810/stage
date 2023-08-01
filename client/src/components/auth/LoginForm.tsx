@@ -9,18 +9,16 @@ const LoginForm = () => {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const creds = { username, password };
-        // try {
-        //     const res = await axios.post(
-        //         "http://localhost:6009/users/create",
-        //         creds
-        //     );
-        //     toast.success("Logged in successfully");
-        // } catch (error: any) {
-        //     error.response.data.message &&
-        //         toast.error(error.response.data.message);
-        // }
         try {
-        } catch (error) {}
+            const res = await axios.post(
+                "http://localhost:6009/auth/login",
+                creds
+            );
+            toast.success("Logged in successfully");
+        } catch (error: any) {
+            error.response.data.message &&
+                toast.error(error.response.data.message);
+        }
     };
 
     return (

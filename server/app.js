@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const { dbConnect } = require("./utils/dbconnect");
 const userRoutes = require("./routes/users.js");
+const authRoutes = require("./routes/auth.js");
 
 //! CONFIG
 
@@ -21,11 +22,13 @@ app.use(bodyParser.json({ limit: "5mb" }));
 // app.use(cors({ orign: ["htpp://localhost:5173"] }));
 app.use(cors({ orign: "*" }));
 
+//! ROUTES
 app.get("/", (req, res) => res.send("Everything is working fine!"));
 app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
 
 //! CONNECTION
 dbConnect().then(() => {
-  const PORT = process.env.PORT || 6001;
-  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+    const PORT = process.env.PORT || 6001;
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });
