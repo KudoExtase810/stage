@@ -14,7 +14,6 @@ const LoginForm = () => {
                 "http://localhost:6009/auth/login",
                 creds
             );
-            toast.success("Logged in successfully");
         } catch (error: any) {
             error.response.data.message &&
                 toast.error(error.response.data.message);
