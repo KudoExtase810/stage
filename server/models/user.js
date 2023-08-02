@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["dam", "service juridique", "admin"],
+    enum: ["DAM", "SJ", "Admin"],
   },
 });
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

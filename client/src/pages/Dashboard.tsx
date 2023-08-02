@@ -1,5 +1,9 @@
+import Hero from "../components/dashboard/Hero";
+
 const Dashboard = () => {
-    return <div>Dashboard</div>;
+    return <>
+   <Hero />
+    </>;
 };
 
 export default Dashboard;
