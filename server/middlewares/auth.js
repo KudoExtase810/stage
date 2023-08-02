@@ -1,11 +1,12 @@
 function isAdmin(req, res, next) {
-  const { role } = req.headers;
-  if (role === "admin") {
-    next();
-  } else {
-    res
-      .status(401)
-      .json({ message: "You need admin privilege in order to proceed." });
-  }
+    const userRole = req.headers["user-role"];
+
+    if (userRole === "admin") {
+        next();
+    } else {
+        res.status(401).json({
+            message: "You need to be an Admin in order to proceed.",
+        });
+    }
 }
-module.exports = isAdmin;
+module.exports = { isAdmin };

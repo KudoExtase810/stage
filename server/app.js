@@ -19,11 +19,16 @@ app.use(helmet());
 // allows app to parse the body
 app.use(bodyParser.json({ limit: "5mb" }));
 
-// app.use(cors({ orign: ["htpp://localhost:5173"] }));
+// TODO: config cors in production mode
+// app.use(cors({ orign: ["http://localhost:5173"] }));
 app.use(cors({ orign: "*" }));
 
 //! ROUTES
-app.get("/", (req, res) => res.send("Everything is working fine!"));
+app.get("/", (req, res) =>
+    res.send(
+        "<center style='color: limegreen; font-family: sans-serif; font-size: 48px;'><b>Everything is working fine!</b></center>"
+    )
+);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 
