@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 async function login(req, res) {
     try {
+        // TODO: encrypt password
         const { username, password } = req.body;
         const user = await User.findOne({ username, password });
 

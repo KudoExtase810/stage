@@ -1,5 +1,10 @@
+const jwt = require("jsonwebtoken");
 function isAdmin(req, res, next) {
-    const userRole = req.headers["user-role"];
+    const token = req.headers.authorization.split(" ")[1];
+
+    // decode the jwt and retrieve the user's role from it
+    const decoded = jwt.decode(token, { complete: true });
+    const userRole = decoded.payload.role;
 
     if (userRole === "admin") {
         next();
