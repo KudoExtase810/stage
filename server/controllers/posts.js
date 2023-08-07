@@ -1,4 +1,4 @@
-const SJPost = require("../models/sjPost");
+const { SJPost, SJPostFacture, SJPostPV } = require("../models/sjPost");
 const DAMPost = require("../models/damPost");
 
 async function createDAMPost(req, res) {
@@ -14,7 +14,15 @@ async function createDAMPost(req, res) {
 
 async function createSJPost(req, res) {
   try {
-    const newPost = await SJPost.create(req.body);
+    const postType = req.params.type;
+    if (postType === "PV") {
+      const newPost = await SJPostPV.create(req.body);
+    } else if (postType === "Facture") {
+      const newPost = await SJPostFacture.create(req.body);
+    } else {
+      const newPost = await SJPost.create(req.body);
+    }
+
     res.status(201).json({
       message: "A new post has been created.",
     });
