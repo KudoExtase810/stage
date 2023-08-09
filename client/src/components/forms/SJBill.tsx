@@ -2,13 +2,14 @@ import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import FormToggle from "../FormToggle";
+
 type FormValues = {
     caseNumber: string;
     date: string;
     place: string;
-    commision: string;
+    payment: string;
     service: string;
-    description: string;
+    huissier: string;
 };
 
 const DAMForm = () => {
@@ -67,20 +68,20 @@ const DAMForm = () => {
                 </div>
                 <div className="flex gap-3">
                     <div className="form-control w-full">
-                        <label className="label" htmlFor="commision">
-                            <span className="label-text">Commision</span>
+                        <label className="label" htmlFor="payment">
+                            <span className="label-text">Payment</span>
                         </label>
                         <input
-                            id="commision"
-                            {...register("commision", {
+                            id="payment"
+                            {...register("payment", {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Commision"
+                            placeholder="Payment"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.commision?.message}
+                            {formState.errors.payment?.message}
                         </span>
                     </div>
                     <div className="form-control w-full">
@@ -103,19 +104,19 @@ const DAMForm = () => {
                 </div>
                 <div className="flex gap-3">
                     <div className="form-control w-3/5">
-                        <label className="label" htmlFor="desc">
-                            <span className="label-text">Description</span>
+                        <label className="label" htmlFor="huissier">
+                            <span className="label-text">Huissier</span>
                         </label>
-                        <textarea
-                            id="desc"
-                            {...register("description", {
+                        <input
+                            id="huissier"
+                            {...register("huissier", {
                                 required: "Ce champ est obligatoire.",
                             })}
-                            placeholder="Description"
-                            className="textarea textarea-bordered hover:border-primary"
+                            placeholder="Huissier"
+                            className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.description?.message}
+                            {formState.errors.huissier?.message}
                         </span>
                     </div>
                     <div className="form-control w-2/5">

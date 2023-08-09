@@ -2,16 +2,19 @@ import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import FormToggle from "../FormToggle";
+
 type FormValues = {
     caseNumber: string;
     date: string;
     place: string;
     commision: string;
     service: string;
-    description: string;
+    subject: string;
+    huissier: string;
+    from: string;
 };
 
-const DAMForm = () => {
+const SJPVForm = () => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
 
     const createPost = async (data: FormValues) => {
@@ -102,23 +105,60 @@ const DAMForm = () => {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <div className="form-control w-3/5">
-                        <label className="label" htmlFor="desc">
-                            <span className="label-text">Description</span>
+                    <div className="form-control w-full">
+                        <label className="label" htmlFor="subject">
+                            <span className="label-text">Subject</span>
                         </label>
-                        <textarea
-                            id="desc"
-                            {...register("description", {
+                        <input
+                            id="subject"
+                            {...register("subject", {
                                 required: "Ce champ est obligatoire.",
                             })}
-                            placeholder="Description"
-                            className="textarea textarea-bordered hover:border-primary"
+                            type="text"
+                            placeholder="Subject"
+                            className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.description?.message}
+                            {formState.errors.subject?.message}
                         </span>
                     </div>
-                    <div className="form-control w-2/5">
+                    <div className="form-control w-full">
+                        <label className="label" htmlFor="huissier">
+                            <span className="label-text">Huissier</span>
+                        </label>
+                        <input
+                            id="huissier"
+                            {...register("huissier", {
+                                required: "Ce champ est obligatoire.",
+                            })}
+                            type="text"
+                            placeholder="Huissier"
+                            className="input input-bordered hover:border-primary"
+                        />
+                        <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
+                            {formState.errors.huissier?.message}
+                        </span>
+                    </div>
+                </div>
+                <div className="flex gap-3">
+                    <div className="form-control w-full">
+                        <label className="label" htmlFor="from">
+                            <span className="label-text">From</span>
+                        </label>
+                        <input
+                            id="from"
+                            {...register("from", {
+                                required: "Ce champ est obligatoire.",
+                            })}
+                            type="text"
+                            placeholder="From"
+                            className="input input-bordered hover:border-primary"
+                        />
+                        <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
+                            {formState.errors.from?.message}
+                        </span>
+                    </div>
+                    <div className="form-control w-full">
                         <label className="label" htmlFor="date">
                             <span className="label-text">Date</span>
                         </label>
@@ -155,4 +195,4 @@ const DAMForm = () => {
     );
 };
 
-export default DAMForm;
+export default SJPVForm;

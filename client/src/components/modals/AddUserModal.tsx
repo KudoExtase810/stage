@@ -1,45 +1,44 @@
+import { MdClose } from "react-icons/md";
+import { authFetch } from "../../common/axiosInstances";
+import toast from "react-hot-toast";
+import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { normalFetch } from "../common/axiosInstances";
-import { useNavigate } from "react-router-dom";
+
+interface props {
+    showModal: boolean;
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 type FormValues = {
     username: string;
     password: string;
+    role: User["role"];
 };
 
-const Login = () => {
+const AddUserModal = ({ showModal, setShowModal }: props) => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
-    const navigate = useNavigate();
 
-    const handleLogin = async (data: FormValues) => {
+    const createNewUser = async (data: FormValues) => {
         try {
-            const res = await normalFetch.post("/auth/login", data);
-            toast.success("Successfully logged in.");
-            // TODO: config jwt
-            console.log(res.data.token);
-            navigate("/");
-        } catch (error: any) {
-            if (error.response?.data?.message) {
-                toast.error(error.response.data.message);
-            }
+            const res = await authFetch.post("/auth/login", data);
+            toast.success("Compte créé avec succés");
+        } catch (error) {
+            isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
 
     return (
-        <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content flex-col lg:flex-row-reverse">
-                <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Login now!</h1>
-                    <p className="py-6">
-                        Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                        assumenda excepturi exercitationem quasi. In deleniti
-                        eaque aut repudiandae et a id nisi.
-                    </p>
-                </div>
+        <dialog className="modal" open={showModal}>
+            <div className="modal-box max-w-xl p-0">
+                <button onClick={() => setShowModal(false)}>
+                    <MdClose
+                        size={32}
+                        className="absolute right-6 top-6 hover:text-primary z-10"
+                    />
+                </button>
                 <form
-                    className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
-                    onSubmit={handleSubmit(handleLogin)}
+                    className="card flex-shrink-0 w-full shadow-2xl bg-base-100"
+                    onSubmit={handleSubmit(createNewUser)}
                     noValidate
                 >
                     <div className="card-body">
@@ -50,6 +49,7 @@ const Login = () => {
                                 </span>
                             </label>
                             <input
+                                id="username"
                                 {...register("username", {
                                     required: "Ce champ est obligatoire.",
                                     minLength: {
@@ -63,10 +63,9 @@ const Login = () => {
                                             "Username cannot exceed 32 characters.",
                                     },
                                 })}
-                                id="username"
                                 type="text"
                                 placeholder="Mohammed Ali"
-                                className="input input-bordered"
+                                className="input input-bordered hover:border-primary"
                             />
                             <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
                                 {formState.errors.username?.message}
@@ -77,6 +76,8 @@ const Login = () => {
                                 <span className="label-text">Mot de passe</span>
                             </label>
                             <input
+                                autoComplete="off"
+                                id="password"
                                 {...register("password", {
                                     required: "Ce champ est obligatoire.",
                                     minLength: {
@@ -90,31 +91,56 @@ const Login = () => {
                                             "Password cannot exceed 32 characters.",
                                     },
                                 })}
-                                id="password"
                                 type="password"
                                 placeholder="••••••••••••"
-                                className="input input-bordered"
+                                className="input input-bordered hover:border-primary"
                             />
                             <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
                                 {formState.errors.password?.message}
                             </span>
                         </div>
+                        <div className="form-control w-full max-w-sm">
+                            <label className="label" htmlFor="role">
+                                <span className="label-text">Rôle</span>
+                            </label>
+                            <select
+                                defaultValue=""
+                                id="role"
+                                className="select select-bordered hover:border-primary"
+                                {...register("role", {
+                                    required: "Ce champ est obligatoire.",
+                                })}
+                            >
+                                <option value="" disabled>
+                                    Choisissez le rôle de l'utilisateur
+                                </option>
+                                <option value="Admin">Administrateur</option>
+                                <option value="DAM">DAM</option>
+                                <option value="SJ">Service Juridique</option>
+                            </select>
+                            <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
+                                {formState.errors.role?.message}
+                            </span>
+                        </div>
+
                         <div className="form-control mt-6">
                             <button
                                 className="btn btn-primary"
                                 type="submit"
                                 disabled={formState.isSubmitting}
                             >
-                                {formState.isSubmitting
-                                    ? "Connecting..."
-                                    : "Se connecter"}
+                                {formState.isSubmitting ? (
+                                    <span className="loading loading-spinner loading-lg text-gray-300"></span>
+                                ) : (
+                                    "Créez le compte"
+                                )}
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
+        </dialog>
     );
 };
 
-export default Login;
+export default AddUserModal;
