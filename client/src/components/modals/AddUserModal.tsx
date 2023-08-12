@@ -5,32 +5,37 @@ import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
 
 interface props {
-    showModal: boolean;
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    isOpen: boolean;
+    closeModal: () => void;
+    users: User[] | [];
+    setUsers: React.Dispatch<React.SetStateAction<User[] | []>>;
 }
 
 type FormValues = {
     username: string;
+    email: string;
     password: string;
     role: User["role"];
 };
 
-const AddUserModal = ({ showModal, setShowModal }: props) => {
+const AddUserModal = ({ isOpen, closeModal, users, setUsers }: props) => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
 
     const createNewUser = async (data: FormValues) => {
         try {
-            const res = await authFetch.post("/auth/login", data);
-            toast.success("Compte créé avec succés");
+            const res = await authFetch.post("/users/create", data);
+            toast.success("Compte créé avec succés!");
+            setUsers([...users, res.data.user]);
+            closeModal();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
 
     return (
-        <dialog className="modal" open={showModal}>
+        <dialog className="modal" open={isOpen}>
             <div className="modal-box max-w-xl p-0">
-                <button onClick={() => setShowModal(false)}>
+                <button onClick={closeModal}>
                     <MdClose
                         size={32}
                         className="absolute right-6 top-6 hover:text-primary z-10"
@@ -69,6 +74,35 @@ const AddUserModal = ({ showModal, setShowModal }: props) => {
                             />
                             <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
                                 {formState.errors.username?.message}
+                            </span>
+                        </div>
+                        <div className="form-control">
+                            <label className="label" htmlFor="email">
+                                <span className="label-text">
+                                    Adresse e-mail
+                                </span>
+                            </label>
+                            <input
+                                id="email"
+                                {...register("email", {
+                                    required: "Ce champ est obligatoire.",
+                                    minLength: {
+                                        value: 6,
+                                        message:
+                                            "Email must be at least 6 characters.",
+                                    },
+                                    maxLength: {
+                                        value: 72,
+                                        message:
+                                            "Email cannot exceed 72 characters.",
+                                    },
+                                })}
+                                placeholder="mohamed-ali@gmail.com"
+                                autoComplete="off"
+                                className="input input-bordered hover:border-primary"
+                            />
+                            <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
+                                {formState.errors.email?.message}
                             </span>
                         </div>
                         <div className="form-control">
@@ -132,7 +166,7 @@ const AddUserModal = ({ showModal, setShowModal }: props) => {
                                 {formState.isSubmitting ? (
                                     <span className="loading loading-spinner loading-lg text-gray-300"></span>
                                 ) : (
-                                    "Créez le compte"
+                                    "Créer le compte"
                                 )}
                             </button>
                         </div>

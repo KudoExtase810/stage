@@ -1,50 +1,108 @@
 const jwt = require("jsonwebtoken");
-function isAdmin(req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
+const User = require("../models/user");
 
-  // decode the jwt and retrieve the user's role from it
-  const decoded = jwt.decode(token, { complete: true });
-  const userRole = decoded.payload.role;
+async function isAdmin(req, res, next) {
+    try {
+        if (!req.headers.authorization)
+            return res.status(403).json({
+                message: "Access denied. No token was provided in the headers.",
+            });
 
-  if (userRole === "Admin") {
-    next();
-  } else {
-    res.status(401).json({
-      message: "You need to be an Admin in order to proceed.",
-    });
-  }
+        const token = req.headers.authorization.split(" ")[1];
+
+        jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+            if (error) {
+                return res.status(401).json({
+                    message: "Invalid token or token has expired.",
+                });
+            }
+
+            const userId = decoded._id;
+            const user = await User.findById(userId);
+
+            if (user.role === "Admin") {
+                next();
+            } else {
+                res.status(401).json({
+                    message: "You need to be an Admin in order to proceed.",
+                });
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
 }
 
-function isDAM(req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
+async function isDAM(req, res, next) {
+    try {
+        if (!req.headers.authorization)
+            return res.status(403).json({
+                message: "Access denied. No token was provided in the headers.",
+            });
 
-  // decode the jwt and retrieve the user's role from it
-  const decoded = jwt.decode(token, { complete: true });
-  const userRole = decoded.payload.role;
+        const token = req.headers.authorization.split(" ")[1];
 
-  if (userRole === "DAM") {
-    next();
-  } else {
-    res.status(401).json({
-      message: "You need to be a member of DAM in order to proceed.",
-    });
-  }
+        jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+            if (error) {
+                return res.status(401).json({
+                    message: "Invalid token or token has expired.",
+                });
+            }
+
+            const userId = decoded._id;
+            const user = await User.findById(userId);
+
+            if (user.role === "DAM") {
+                next();
+            } else {
+                res.status(401).json({
+                    message:
+                        "You need to have a role of DAM in order to proceed.",
+                });
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
 }
 
-function isSJ(req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
+async function isSJ(req, res, next) {
+    try {
+        if (!req.headers.authorization)
+            return res.status(403).json({
+                message: "Access denied. No token was provided in the headers.",
+            });
 
-  // decode the jwt and retrieve the user's role from it
-  const decoded = jwt.decode(token, { complete: true });
-  const userRole = decoded.payload.role;
+        const token = req.headers.authorization.split(" ")[1];
 
-  if (userRole === "SJ") {
-    next();
-  } else {
-    res.status(401).json({
-      message: "You need to go SSJ2 in order to proceed.",
-    });
-  }
+        jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+            if (error) {
+                return res.status(401).json({
+                    message: "Invalid token or token has expired.",
+                });
+            }
+
+            const userId = decoded._id;
+            const user = await User.findById(userId);
+
+            if (user.role === "SJ") {
+                next();
+            } else {
+                res.status(401).json({
+                    message:
+                        "You need to have a role of SJ in order to proceed.",
+                });
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
 }
 
 module.exports = { isAdmin, isDAM, isSJ };

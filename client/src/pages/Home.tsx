@@ -1,12 +1,10 @@
 import { useState } from "react";
 import PostModal from "../components/modals/PostModal";
-import Hero from "../components/dashboard/Hero";
-import AddUserModal from "../components/modals/AddUserModal";
+import Hero from "../components/home/Hero";
 
-const Dashboard = () => {
+const Home = () => {
     // modals toggle
     const [showPostModal, setShowPostModal] = useState(false);
-    const [showUserModal, setShowUserModal] = useState(false);
 
     return (
         <>
@@ -15,12 +13,8 @@ const Dashboard = () => {
                 showModal={showPostModal}
                 setShowModal={setShowPostModal}
             />
-            <AddUserModal
-                showModal={showUserModal}
-                setShowModal={setShowUserModal}
-            />
         </>
     );
 };
 
-export default Dashboard;
+export default Home;

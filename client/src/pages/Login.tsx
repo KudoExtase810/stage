@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { normalFetch } from "../common/axiosInstances";
 import { useNavigate } from "react-router-dom";
+import cookies from "js-cookie";
+import { useUserData } from "../context/UserContext";
 
 type FormValues = {
     username: string;
@@ -10,19 +12,25 @@ type FormValues = {
 
 const Login = () => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
+
     const navigate = useNavigate();
+
+    // user data
+    const { setData } = useUserData();
 
     const handleLogin = async (data: FormValues) => {
         try {
+            // post login credentials to auth endpoint
             const res = await normalFetch.post("/auth/login", data);
+            cookies.set("sg-auth-token", res.data.token);
+            setData(res.data.user);
             toast.success("Successfully logged in.");
-            // TODO: config jwt
-            console.log(res.data.token);
-            navigate("/");
+            navigate("/", { replace: true });
         } catch (error: any) {
             if (error.response?.data?.message) {
                 toast.error(error.response.data.message);
             }
+            console.log(error);
         }
     };
 
@@ -105,9 +113,11 @@ const Login = () => {
                                 type="submit"
                                 disabled={formState.isSubmitting}
                             >
-                                {formState.isSubmitting
-                                    ? "Connecting..."
-                                    : "Se connecter"}
+                                {formState.isSubmitting ? (
+                                    <span className="loading loading-spinner loading-lg text-gray-300"></span>
+                                ) : (
+                                    "Se connecter"
+                                )}
                             </button>
                         </div>
                     </div>

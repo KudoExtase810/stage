@@ -1,7 +1,8 @@
 import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 //JWT
-const token = "No token for now";
+const { token } = useAuth();
 
 // Basic axios instance
 const normalFetch = axios.create({
@@ -15,7 +16,7 @@ const normalFetch = axios.create({
 const authFetch = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
     },
 });

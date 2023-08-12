@@ -1,12 +1,21 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUserData } from "../context/UserContext";
+import cookies from "js-cookie";
 
 const Navbar = () => {
+    const { data } = useUserData();
+
+    const handleLogout = () => {
+        cookies.remove("sg-auth-token");
+        window.location.reload();
+    };
+
     const { pathname } = useLocation();
     if (pathname === "/login") return null;
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost normal-case text-xl gap-0">
+                <a className="btn btn-ghost normal-case text-xl gap-0" href="/">
                     <span className="text-blue-600">SONEL</span>
                     <span className="text-orange-600">GAZ</span>
                 </a>
@@ -16,20 +25,15 @@ const Navbar = () => {
                     <li>
                         <a>Link</a>
                     </li>
-                    <li>
-                        <details>
-                            <summary>Parent</summary>
-                            <ul className="p-2 bg-base-100">
-                                <li>
-                                    <a>Link 1</a>
-                                </li>
-                                <li>
-                                    <a>Link 2</a>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
                 </ul>
+                {data ? (
+                    <button
+                        className="btn btn-outline btn-error mr-1"
+                        onClick={handleLogout}
+                    >
+                        Se déconnecter
+                    </button>
+                ) : null}
                 <button>
                     <label className="swap swap-rotate btn btn-ghost btn-circle">
                         <input type="checkbox" data-toggle-theme="light,dark" />
