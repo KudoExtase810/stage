@@ -5,4 +5,5 @@ type User = {
     role: "DAM" | "SJ" | "Admin";
     createdAt: string;
     updatedAt: string;
+    tempToken?: string;
 };

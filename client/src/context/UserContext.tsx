@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, createContext } from "react";
-import useAuth from "../hooks/useAuth";
-import { authFetch } from "../common/axiosInstances";
+import useToken from "../hooks/useToken";
+import axiosIns from "../api/axios";
 
 type CtxProps = {
     children: React.ReactNode;
@@ -17,11 +17,11 @@ export const useUserData = () => useContext(UserContext);
 
 const UserContextProvider = ({ children }: CtxProps) => {
     const [data, setData] = useState<User>();
-    const { userId } = useAuth();
+    const { userId } = useToken();
 
     useEffect(() => {
         const getUserData = async () => {
-            const response = await authFetch.get(`/users/${userId}`);
+            const response = await axiosIns.get(`/users/${userId}`);
             setData(response.data as User);
         };
         if (userId && !data) getUserData();

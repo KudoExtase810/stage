@@ -20,15 +20,14 @@ app.use(helmet());
 // allows app to parse the body
 app.use(bodyParser.json({ limit: "5mb" }));
 
-// TODO: config cors in production mode
-// app.use(cors({ orign: ["http://localhost:5173"] }));
-app.use(cors({ orign: "*" }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// app.use(cors({ orign: "*" }));
 
 //! ROUTES
 app.get("/", (req, res) =>
-  res.send(
-    "<center style='color: limegreen; font-family: sans-serif; font-size: 48px;'><b>Everything is working fine!</b></center>"
-  )
+    res.send(
+        "<center style='color: limegreen; font-family: sans-serif; font-size: 48px;'><b>Everything is working fine!</b></center>"
+    )
 );
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
@@ -36,6 +35,6 @@ app.use("/post", postRoutes);
 
 //! CONNECTION
 dbConnect().then(() => {
-  const PORT = process.env.PORT || 6001;
-  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+    const PORT = process.env.PORT || 6001;
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });

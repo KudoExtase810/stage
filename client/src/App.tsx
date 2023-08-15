@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { themeChange } from "theme-change";
 import Footer from "./components/Footer";
 import Administration from "./pages/Administration";
+import RequireAuth from "./components/RequrieAuth";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
     useEffect(() => {
@@ -15,18 +17,36 @@ function App() {
             themeChange(false);
         };
     }, []);
+
     return (
         <>
             <main>
                 <Toaster />
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/unauthorized" element={<Unauthorized />} />
+
+                    {/* Rotues that require auth */}
+                    <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+                        <Route
+                            path="/administration"
+                            element={<Administration />}
+                        />
+                    </Route>
+
                     <Route
-                        path="/administration"
-                        element={<Administration />}
-                    />
+                        element={
+                            <RequireAuth
+                                allowedRoles={["Admin", "DAM", "SJ"]}
+                            />
+                        }
+                    >
+                        <Route path="/" element={<Home />} />
+                    </Route>
+
+                    {/* Non-existant route */}
+                    <Route path="*" element={<div></div>} />
                 </Routes>
             </main>
             <Footer />

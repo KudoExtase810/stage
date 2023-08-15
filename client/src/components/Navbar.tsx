@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUserData } from "../context/UserContext";
 import cookies from "js-cookie";
 
@@ -11,19 +11,27 @@ const Navbar = () => {
     };
 
     const { pathname } = useLocation();
+
     if (pathname === "/login") return null;
     return (
-        <div className="navbar bg-base-100">
+        <nav className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost normal-case text-xl gap-0" href="/">
-                    <span className="text-blue-600">SONEL</span>
-                    <span className="text-orange-600">GAZ</span>
+                <a
+                    className="btn btn-ghost text-xl gap-0 relative group uppercase"
+                    href="/"
+                >
+                    <span className="text-blue-600 group-hover:text-orange-600 transition duration-500">
+                        Sonel
+                    </span>
+                    <span className="text-orange-600 group-hover:text-blue-600 transition duration-500">
+                        Gaz
+                    </span>
                 </a>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <a>Link</a>
+                        <Link to="/">Accueil</Link>
                     </li>
                 </ul>
                 {data ? (
@@ -33,7 +41,14 @@ const Navbar = () => {
                     >
                         Se déconnecter
                     </button>
-                ) : null}
+                ) : (
+                    <Link
+                        className="btn btn-outline btn-success mr-1"
+                        to="/login"
+                    >
+                        Se connecter
+                    </Link>
+                )}
                 <button>
                     <label className="swap swap-rotate btn btn-ghost btn-circle">
                         <input type="checkbox" data-toggle-theme="light,dark" />
@@ -54,7 +69,7 @@ const Navbar = () => {
                     </label>
                 </button>
             </div>
-        </div>
+        </nav>
     );
 };
 

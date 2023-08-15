@@ -21,6 +21,7 @@ async function getUser(req, res) {
         const { userId } = req.params;
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found!" });
+        user.password = undefined;
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -29,7 +30,7 @@ async function getUser(req, res) {
 
 async function getAllUsers(req, res) {
     try {
-        const allUsers = await User.find({});
+        const allUsers = await User.find({}).sort({ username: "ascending" });
         res.status(200).json(allUsers);
     } catch (error) {
         res.status(500).json({ message: error.message });

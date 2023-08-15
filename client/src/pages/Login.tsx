@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { normalFetch } from "../common/axiosInstances";
-import { useNavigate } from "react-router-dom";
-import cookies from "js-cookie";
+import axiosIns from "../api/axios";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useUserData } from "../context/UserContext";
+import { isAxiosError } from "axios";
+import useToken from "../hooks/useToken";
 
 type FormValues = {
     username: string;
@@ -15,25 +16,21 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    // user data
     const { setData } = useUserData();
+    const { token } = useToken();
 
     const handleLogin = async (data: FormValues) => {
         try {
-            // post login credentials to auth endpoint
-            const res = await normalFetch.post("/auth/login", data);
-            cookies.set("sg-auth-token", res.data.token);
+            const res = await axiosIns.post("/auth/login", data);
             setData(res.data.user);
-            toast.success("Successfully logged in.");
+            toast.success("Connexion réussie.");
             navigate("/", { replace: true });
         } catch (error: any) {
-            if (error.response?.data?.message) {
-                toast.error(error.response.data.message);
-            }
-            console.log(error);
+            isAxiosError(error) && toast.error(error.response?.data?.message);
+            console.error(error);
         }
     };
-
+    if (token) return <Navigate to="/" />;
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
