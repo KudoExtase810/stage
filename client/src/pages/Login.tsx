@@ -21,7 +21,9 @@ const Login = () => {
 
     const handleLogin = async (data: FormValues) => {
         try {
-            const res = await axiosIns.post("/auth/login", data);
+            const res = await axiosIns.post("/auth/login", data, {
+                withCredentials: true,
+            });
             setData(res.data.user);
             toast.success("Connexion réussie.");
             navigate("/", { replace: true });
@@ -30,7 +32,10 @@ const Login = () => {
             console.error(error);
         }
     };
+
+    // deny access to login page if user is already logged in
     if (token) return <Navigate to="/" />;
+
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
