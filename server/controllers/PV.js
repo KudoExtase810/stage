@@ -1,5 +1,5 @@
 const PV = require("../models/case/PV");
-const FullCase = require("../models/fullCase");
+const FullCase = require("../models/case/fullCase");
 
 // CREATE
 async function createPV(req, res) {

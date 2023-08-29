@@ -1,5 +1,5 @@
 const Bill = require("../models/case/bill");
-const FullCase = require("../models/fullCase");
+const FullCase = require("../models/case/fullCase");
 
 // CREATE
 async function createBill(req, res) {
