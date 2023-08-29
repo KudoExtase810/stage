@@ -6,8 +6,8 @@ import SJPVForm from "../forms/SJPV";
 import { MdClose } from "react-icons/md";
 
 interface ModalProps {
-    showModal: boolean;
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    isOpen: boolean;
+    close: () => void;
 }
 
 // Return the form as a component depending on the formType state
@@ -25,12 +25,12 @@ const DataForm = () => {
     }
 };
 
-const PostModal = ({ showModal, setShowModal }: ModalProps) => {
+const FormModal = ({ isOpen, close }: ModalProps) => {
     const { formType } = useFormType();
     return (
-        <dialog className="modal" open={showModal}>
+        <dialog className="modal" open={isOpen}>
             <div className="modal-box max-w-3xl p-0">
-                <button className="" onClick={() => setShowModal(false)}>
+                <button onClick={close}>
                     <MdClose
                         size={32}
                         className="absolute right-6 top-6 hover:text-primary z-10"
@@ -47,4 +47,4 @@ const PostModal = ({ showModal, setShowModal }: ModalProps) => {
     );
 };
 
-export default PostModal;
+export default FormModal;

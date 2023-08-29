@@ -5,5 +5,66 @@ type User = {
     role: "DAM" | "SJ" | "Admin";
     createdAt: string;
     updatedAt: string;
-    tempToken?: string;
+};
+
+//? --- CASE ---
+
+// DAM
+type DAMRequest = {
+    _id: string;
+    caseNumber: string;
+    date: string;
+    place: string;
+    commission: string;
+    service: string;
+    description?: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
+// SJ
+type SJRequest = {
+    _id: string;
+    caseNumber: string;
+    date: string;
+    place: string;
+    commission: string;
+    service: string;
+    subject: string;
+    huissier: string;
+    createdAt: string;
+    updatedAt: string;
+};
+type PVForm = {
+    _id: string;
+    caseNumber: string;
+    date: string;
+    place: string;
+    commission: string;
+    service: string;
+    subject: string;
+    huissier: string;
+    from: string;
+};
+type BillForm = {
+    _id: string;
+    caseNumber: string;
+    date: string;
+    place: string;
+    huissier: string;
+    payment: string;
+};
+
+// SJ Combination
+type SJCase = {
+    _id: string;
+    demande: SJRequest;
+    pv: PVForm;
+    facture: BillForm;
+};
+
+// Full thing SJ+DAM
+type WholeCase = {
+    DAM: DAMRequest;
+    SJ: SJCase;
 };

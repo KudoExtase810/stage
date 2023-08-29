@@ -1,5 +1,5 @@
 import { MdClose } from "react-icons/md";
-import axiosIns from "../../api/axios";
+import axiosIns from "../../common/axios";
 import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
@@ -68,7 +68,7 @@ const UserModal = ({
         }
     };
 
-    // set default field values to user data if you want to edit otherwise reset the values
+    // set default field values to user data if you want to edit (actionUser is defined) otherwise reset the values
     useEffect(() => {
         if (actionUser) {
             setValue("username", actionUser.username);
@@ -146,7 +146,7 @@ const UserModal = ({
                                             "Email cannot exceed 72 characters.",
                                     },
                                 })}
-                                placeholder="mohamed-ali@gmail.com"
+                                placeholder="mohammed-ali@gmail.com"
                                 autoComplete="off"
                                 className="input input-bordered hover:border-primary"
                             />

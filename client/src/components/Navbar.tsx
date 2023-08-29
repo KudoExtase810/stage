@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUserData } from "../context/UserContext";
 import cookies from "js-cookie";
 
@@ -10,9 +10,6 @@ const Navbar = () => {
         window.location.reload();
     };
 
-    const { pathname } = useLocation();
-
-    if (pathname === "/login") return null;
     return (
         <nav className="navbar bg-base-100">
             <div className="flex-1">
@@ -31,7 +28,7 @@ const Navbar = () => {
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <Link to="/">Accueil</Link>
+                        <Link to="/">You are {data?.role}</Link>
                     </li>
                 </ul>
                 {data ? (

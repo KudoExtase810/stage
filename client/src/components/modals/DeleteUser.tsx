@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import axiosIns from "../../api/axios";
+import axiosIns from "../../common/axios";
 import { isAxiosError } from "axios";
 import useToken from "../../hooks/useToken";
 

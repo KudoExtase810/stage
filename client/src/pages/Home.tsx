@@ -1,17 +1,17 @@
 import { useState } from "react";
-import PostModal from "../components/modals/PostModal";
+import FormModal from "../components/modals/FormModal";
 import Hero from "../components/home/Hero";
 
 const Home = () => {
-    // modals toggle
-    const [showPostModal, setShowPostModal] = useState(false);
+    // modal toggle
+    const [showFormModal, setShowFormModal] = useState(false);
 
     return (
         <>
-            <Hero openModal={() => setShowPostModal(true)} />
-            <PostModal
-                showModal={showPostModal}
-                setShowModal={setShowPostModal}
+            <Hero openModal={() => setShowFormModal(true)} />
+            <FormModal
+                isOpen={showFormModal}
+                close={() => setShowFormModal(false)}
             />
         </>
     );

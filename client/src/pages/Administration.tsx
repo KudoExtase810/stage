@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import UsersTable from "../components/administration/UsersTable";
+import Users from "../components/administration/Users";
 import UserModal from "../components/modals/UserModal";
 import DeleteUser from "../components/modals/DeleteUser";
 
 const Administration = () => {
     // modals toggle
-
     const [showUserModal, setShowUserModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [users, setUsers] = useState<User[]>([]);
 
+    // The user selected for edit / delete
     const [actionUser, setActionUser] = useState<User>();
 
     // Clear the form from the user's data after closing it
@@ -37,7 +37,7 @@ const Administration = () => {
                 close={() => setShowDeleteModal(false)}
             />
 
-            <UsersTable
+            <Users
                 users={users}
                 setUsers={setUsers}
                 openUserModal={() => setShowUserModal(true)}

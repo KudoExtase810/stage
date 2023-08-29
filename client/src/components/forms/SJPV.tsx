@@ -7,7 +7,7 @@ type FormValues = {
     caseNumber: string;
     date: string;
     place: string;
-    commision: string;
+    commission: string;
     service: string;
     subject: string;
     huissier: string;
@@ -70,20 +70,20 @@ const SJPVForm = () => {
                 </div>
                 <div className="flex gap-3">
                     <div className="form-control w-full">
-                        <label className="label" htmlFor="commision">
-                            <span className="label-text">Commision</span>
+                        <label className="label" htmlFor="commission">
+                            <span className="label-text">Commission</span>
                         </label>
                         <input
-                            id="commision"
-                            {...register("commision", {
+                            id="commission"
+                            {...register("commission", {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Commision"
+                            placeholder="Commission"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.commision?.message}
+                            {formState.errors.commission?.message}
                         </span>
                     </div>
                     <div className="form-control w-full">

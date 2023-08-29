@@ -32,9 +32,9 @@ const Hero = ({ openModal }: props) => {
                             Panneau d'administration
                         </Link>
                     ) : (
-                        <button className="btn btn-primary" onClick={openModal}>
-                            Poser une demande
-                        </button>
+                        <Link to="/cases" className="btn btn-primary">
+                            Gérer les affaires
+                        </Link>
                     )}
                 </div>
             </div>

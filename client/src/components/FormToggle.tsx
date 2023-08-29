@@ -1,7 +1,9 @@
 import { useFormType } from "../context/FormContext";
+import { useUserData } from "../context/UserContext";
 
 const FormToggle = () => {
     const { formType, setFormType } = useFormType();
+    const { data } = useUserData();
     return (
         <select
             className="select select-accent w-2/5"
@@ -20,9 +22,11 @@ const FormToggle = () => {
             <option value="SJPV" hidden={formType === "SJPV"}>
                 SJ (Procès-verbal)
             </option>
-            <option value="DAM" hidden={formType === "DAM"}>
-                DAM
-            </option>
+            {data?.role === "DAM" ? (
+                <option value="DAM" hidden={formType === "DAM"}>
+                    DAM
+                </option>
+            ) : null}
         </select>
     );
 };

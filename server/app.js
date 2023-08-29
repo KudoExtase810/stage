@@ -4,9 +4,14 @@ const cors = require("cors");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const { dbConnect } = require("./utils/dbconnect");
+
 const userRoutes = require("./routes/users.js");
 const authRoutes = require("./routes/auth.js");
-const postRoutes = require("./routes/post.js");
+const DAMRoutes = require("./routes/DAM");
+const SJRoutes = require("./routes/SJ");
+const caseRoutes = require("./routes/cases");
+
+const { isSJ } = require("./middlewares/auth");
 
 //! CONFIG
 
@@ -20,7 +25,7 @@ app.use(helmet());
 // allows app to parse the body
 app.use(bodyParser.json({ limit: "5mb" }));
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: [process.env.CLIENT_URL], credentials: true }));
 // app.use(cors({ orign: "*" }));
 
 //! ROUTES
@@ -31,7 +36,9 @@ app.get("/", (req, res) =>
 );
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
-app.use("/post", postRoutes);
+app.use("/forms/DAM", DAMRoutes);
+app.use("/forms/SJ", isSJ, SJRoutes); // role middleware applied here
+app.use("/cases", caseRoutes);
 
 //! CONNECTION
 dbConnect().then(() => {

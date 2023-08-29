@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import SingleUser from "./SingleUser";
-import axiosIns from "../../api/axios";
+import axiosIns from "../../common/axios";
 import { IoMdPersonAdd } from "react-icons/io";
 import { HiOutlineSearch } from "react-icons/hi";
-import { toast } from "react-hot-toast";
 import { MdEmail } from "react-icons/md";
 import useToken from "../../hooks/useToken";
 
@@ -15,7 +14,7 @@ interface props {
     setActionUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
-const UsersTable = ({
+const Users = ({
     openUserModal,
     openDeleteModal,
     users,
@@ -24,7 +23,7 @@ const UsersTable = ({
 }: props) => {
     const { token } = useToken();
 
-    // Get the necessary users data
+    // Fetch users
     useEffect(() => {
         const getAllUsers = async () => {
             const res = await axiosIns.get("/users/all", {
@@ -82,12 +81,14 @@ const UsersTable = ({
 
     return (
         <>
+            {/* controls */}
             <div className="flex justify-between p-6 gap-10 bg-base-300 mb-4">
                 <div className="join">
                     <div className="relative">
                         <input
                             className="input input-bordered join-item pr-4"
                             onChange={(e) => setQuery(e.target.value)}
+                            value={query}
                             type="text"
                             placeholder={`Filtrer par ${
                                 searchMethod === "username" ? "nom" : "email"
@@ -102,7 +103,6 @@ const UsersTable = ({
                             <MdEmail size={22} />
                         </button>
                     </div>
-
                     <select
                         className="select select-bordered join-item"
                         defaultValue="username"
@@ -118,7 +118,7 @@ const UsersTable = ({
                         <option disabled>Trier par</option>
                         <option value="username">Nom (A-Z)</option>
                         <option value="role">Rôle (A-Z)</option>
-                        <option value="createdAt">Date</option>
+                        <option value="createdAt">Créé le (⇩)</option>
                     </select>
 
                     <button className="btn btn-primary join-item">
@@ -133,6 +133,8 @@ const UsersTable = ({
                     <IoMdPersonAdd size={22} />
                 </button>
             </div>
+
+            {/* table */}
             <div className="overflow-x-auto">
                 <table className="table">
                     <thead>
@@ -162,4 +164,4 @@ const UsersTable = ({
     );
 };
 
-export default UsersTable;
+export default Users;

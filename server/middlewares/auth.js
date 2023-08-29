@@ -20,6 +20,11 @@ async function isAdmin(req, res, next) {
             const userId = decoded._id;
             const user = await User.findById(userId);
 
+            if (!user)
+                return res
+                    .status(404)
+                    .json({ message: "User does not exist." });
+
             if (user.role === "Admin") {
                 next();
             } else {
@@ -53,6 +58,11 @@ async function isDAM(req, res, next) {
 
             const userId = decoded._id;
             const user = await User.findById(userId);
+
+            if (!user)
+                return res
+                    .status(404)
+                    .json({ message: "User does not exist." });
 
             if (user.role === "DAM") {
                 next();
@@ -88,6 +98,11 @@ async function isSJ(req, res, next) {
 
             const userId = decoded._id;
             const user = await User.findById(userId);
+
+            if (!user)
+                return res
+                    .status(404)
+                    .json({ message: "User does not exist." });
 
             if (user.role === "SJ") {
                 next();

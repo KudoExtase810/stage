@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, createContext } from "react";
 import useToken from "../hooks/useToken";
-import axiosIns from "../api/axios";
+import axiosIns from "../common/axios";
 
 type CtxProps = {
     children: React.ReactNode;

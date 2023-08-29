@@ -10,6 +10,8 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@formkit/auto-animate": "^0.7.0",
+        "@pathofdev/react-tag-input": "^1.0.7",
         "axios": "^1.4.0",
         "js-cookie": "^3.0.5",
         "jwt-decode": "^3.1.2",
@@ -19,8 +21,7 @@
         "react-hot-toast": "^2.4.1",
         "react-icons": "^4.10.1",
         "react-router-dom": "^6.3.0",
-        "theme-change": "^2.5.0",
-        "universal-cookie": "^5.0.0"
+        "theme-change": "^2.5.0"
     },
     "devDependencies": {
         "@types/js-cookie": "^3.0.3",

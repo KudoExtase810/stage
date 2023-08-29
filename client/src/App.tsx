@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
@@ -7,10 +7,12 @@ import { useEffect } from "react";
 import { themeChange } from "theme-change";
 import Footer from "./components/Footer";
 import Administration from "./pages/Administration";
-import RequireAuth from "./components/RequrieAuth";
-import Unauthorized from "./pages/Unauthorized";
+import RequireAuth from "./components/RequireAuth";
+import Cases from "./pages/Cases";
+import NotFound from "./pages/NotFound";
 
 function App() {
+    const { pathname } = useLocation();
     useEffect(() => {
         themeChange(false);
         return () => {
@@ -22,17 +24,26 @@ function App() {
         <>
             <main>
                 <Toaster />
-                <Navbar />
-                <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/unauthorized" element={<Unauthorized />} />
 
-                    {/* Rotues that require auth */}
+                {pathname !== "/login" ? <Navbar /> : null}
+
+                <Routes>
+                    {/* No auth required routes */}
+
+                    <Route path="/login" element={<Login />} />
+
+                    {/* Auth required routes */}
                     <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
                         <Route
                             path="/administration"
                             element={<Administration />}
                         />
+                    </Route>
+
+                    <Route
+                        element={<RequireAuth allowedRoles={["SJ", "DAM"]} />}
+                    >
+                        <Route path="/cases" element={<Cases />} />
                     </Route>
 
                     <Route
@@ -46,10 +57,11 @@ function App() {
                     </Route>
 
                     {/* Non-existant route */}
-                    <Route path="*" element={<div></div>} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
-            <Footer />
+
+            {pathname === "/" ? <Footer /> : null}
         </>
     );
 }
