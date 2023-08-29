@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useFormType } from "../../context/FormContext";
 import DAMForm from "../forms/DAM";
 import SJForm from "../forms/SJ";
 import SJBillForm from "../forms/SJBill";
 import SJPVForm from "../forms/SJPV";
 import { MdClose } from "react-icons/md";
+import { useUserData } from "../../context/UserContext";
 
 interface ModalProps {
     isOpen: boolean;
@@ -12,7 +14,14 @@ interface ModalProps {
 
 // Return the form as a component depending on the formType state
 const DataForm = () => {
-    const { formType } = useFormType();
+    const { data } = useUserData();
+    const { formType, setFormType } = useFormType();
+
+    useEffect(() => {
+        if (!data) return;
+        if (data.role === "DAM") setFormType("DAM");
+    }, [data]);
+
     switch (formType) {
         case "DAM":
             return <DAMForm />;
@@ -25,6 +34,7 @@ const DataForm = () => {
     }
 };
 
+// modal jsx
 const FormModal = ({ isOpen, close }: ModalProps) => {
     const { formType } = useFormType();
     return (

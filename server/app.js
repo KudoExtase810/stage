@@ -29,7 +29,7 @@ app.use(cors({ origin: [process.env.CLIENT_URL], credentials: true }));
 // app.use(cors({ orign: "*" }));
 
 //! ROUTES
-app.get("/", (req, res) =>
+app.get("/", (_req, res) =>
     res.send(
         "<center style='color: limegreen; font-family: sans-serif; font-size: 48px;'><b>Everything is working fine!</b></center>"
     )

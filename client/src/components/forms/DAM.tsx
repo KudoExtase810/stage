@@ -1,7 +1,9 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import FormToggle from "../FormToggle";
+import axiosIns from "../../common/axios";
+import useToken from "../../hooks/useToken";
+import { useUserData } from "../../context/UserContext";
 type FormValues = {
     caseNumber: string;
     date: string;
@@ -12,11 +14,19 @@ type FormValues = {
 };
 
 const DAMForm = () => {
-    const { register, handleSubmit, formState } = useForm<FormValues>();
+    const { register, handleSubmit, formState, reset } = useForm<FormValues>();
 
-    const createPost = async (data: FormValues) => {
+    const { token } = useToken();
+    const { data } = useUserData();
+
+    const createDAMRequest = async (formData: FormValues) => {
         try {
-            toast.success(data.date);
+            const reqData = { ...formData, requestedBy: data?._id };
+            const res = await axiosIns.post("/forms/DAM", reqData, {
+                headers: { authorization: `Bearer ${token}` },
+            });
+            reset();
+            toast.success(res.data.message);
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
@@ -25,7 +35,7 @@ const DAMForm = () => {
     return (
         <form
             className="card flex-shrink-0 bg-base-100"
-            onSubmit={handleSubmit(createPost)}
+            onSubmit={handleSubmit(createDAMRequest)}
             noValidate
         >
             <div className="card-body">

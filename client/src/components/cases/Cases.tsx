@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
 import { useUserData } from "../../context/UserContext";
-import SJCard from "./SJCard";
+import CaseCard from "./CaseCard";
 import { toast } from "react-hot-toast";
 import DAMCard from "./DAMCard";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -28,11 +28,12 @@ const CasesList = ({
     // only the dam request that was first created, which causes a new case to be created in the db
     const [DAMRequests, setDAMRequests] = useState<DAMRequest[]>([]);
     // full case containing the dam request, sj request, pv, facture (bill)
-    const [fullCases, setFullCases] = useState<SJCase[]>([]);
+    const [fullCases, setFullCases] = useState<FullCase[]>([]);
 
     // Which items to show in the list
     const [listType, setListType] = useState<"DAM" | "SJ">("DAM");
 
+    // Set list type according to user role
     useEffect(() => {
         if (!data) return;
 
@@ -47,19 +48,17 @@ const CasesList = ({
     // Users with role of "SJ" will be able to view the whole case including their DAM request
     useEffect(() => {
         const getDAMRequests = async () => {
-            const res = await axiosIns.get("", {
+            const res = await axiosIns.get("/forms/DAM", {
                 headers: { authorization: `Bearer ${token}` },
             });
             setDAMRequests(res.data);
-            setDAMRequests([1, 2, 3] as any);
         };
 
         const getFullCases = async () => {
-            const res = await axiosIns.get("", {
+            const res = await axiosIns.get("/cases", {
                 headers: { authorization: `Bearer ${token}` },
             });
             setFullCases(res.data);
-            setFullCases([1, 2, 3] as any);
         };
 
         if (!data) return;
@@ -158,10 +157,10 @@ const CasesList = ({
                                   setFullCardDetails={setFullCardDetails}
                               />
                           ))
-                        : (filteredItems as SJCase[]).map((item) => (
-                              <SJCard
+                        : (filteredItems as FullCase[]).map((item) => (
+                              <CaseCard
                                   key={item._id}
-                                  _case={item}
+                                  fullCase={item}
                                   openDetailsModal={openDetailsModal}
                                   setFullCardDetails={setFullCardDetails}
                               />

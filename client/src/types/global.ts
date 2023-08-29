@@ -32,8 +32,6 @@ type SJRequest = {
     service: string;
     subject: string;
     huissier: string;
-    createdAt: string;
-    updatedAt: string;
 };
 type PVForm = {
     _id: string;
@@ -65,9 +63,13 @@ type SJCase = {
 
 // Full thing SJ+DAM
 type FullCase = {
+    _id: string;
     DAM: DAMRequest;
     SJ: SJCase;
     requestedBy: User;
     handledBy: User;
     progress: 0 | 1 | 2 | 3;
+    createdAt: string;
+    updatedAt: string;
+    status: "locked" | "unlocked";
 };
