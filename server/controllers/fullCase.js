@@ -4,7 +4,12 @@ const FullCase = require("../models/case/fullCase");
 async function getCaseById(req, res) {
     try {
         const { id } = req.params;
-        const fullCase = await FullCase.findById(id);
+        const fullCase = await FullCase.findById(id).populate([
+            "DAMRequest",
+            "SJRequest",
+            "PV",
+            "",
+        ]);
 
         if (!fullCase)
             return res.status(404).json({ message: "Case not found." });
@@ -15,9 +20,16 @@ async function getCaseById(req, res) {
     }
 }
 
-async function getAllCases(req, res) {
+async function getAllCases(_req, res) {
     try {
-        const allCases = await FullCase.find({});
+        const allCases = await FullCase.find({}).populate([
+            "DAMRequest",
+            "SJRequest",
+            "PV",
+            "bill",
+            "requestedBy",
+            "handledBy",
+        ]);
         res.status(200).json(allCases);
     } catch (error) {
         res.status(500).json({ message: error.message });

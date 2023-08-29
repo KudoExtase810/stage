@@ -60,11 +60,14 @@ type SJCase = {
     _id: string;
     demande: SJRequest;
     pv: PVForm;
-    facture: BillForm;
+    bill: BillForm;
 };
 
 // Full thing SJ+DAM
-type WholeCase = {
+type FullCase = {
     DAM: DAMRequest;
     SJ: SJCase;
+    requestedBy: User;
+    handledBy: User;
+    progress: 0 | 1 | 2 | 3;
 };

@@ -8,8 +8,8 @@ const FullCaseSchema = new mongoose.Schema(
             required: true,
         },
         SJRequest: { type: mongoose.SchemaTypes.ObjectId, ref: "SJRequest" },
-        pv: { type: mongoose.SchemaTypes.ObjectId, ref: "PV" },
-        facture: { type: mongoose.SchemaTypes.ObjectId, ref: "Bill" },
+        PV: { type: mongoose.SchemaTypes.ObjectId, ref: "PV" },
+        bill: { type: mongoose.SchemaTypes.ObjectId, ref: "Bill" },
         progress: { type: Number, default: 0, min: 0, max: 3 },
         requestedBy: {
             type: mongoose.SchemaTypes.ObjectId,
