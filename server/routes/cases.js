@@ -21,4 +21,4 @@ router.post("/", (_req, res) =>
 
 router.delete("/:id", deleteCase);
 
-router.module.exports = router;
+module.exports = router;
