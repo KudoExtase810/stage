@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useUserData } from "../context/UserContext";
 import cookies from "js-cookie";
-import dbClip from "../../public/furtherbeyond.mp3";
+import dbClip from "../../public/ggg.mp3";
 
 const Navbar = () => {
     const { data } = useUserData();
@@ -48,7 +48,12 @@ const Navbar = () => {
                     </Link>
                 )}
 
-                <label className="swap swap-rotate btn btn-ghost btn-circle">
+                <label
+                    className="swap swap-rotate btn btn-ghost btn-circle"
+                    onClick={() => {
+                        new Audio(dbClip).play();
+                    }}
+                >
                     <input type="checkbox" data-toggle-theme="light,dark" />
                     <svg
                         className="swap-on fill-current w-7 h-7"
