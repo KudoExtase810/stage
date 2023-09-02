@@ -7,8 +7,8 @@ type CtxProps = {
 };
 
 type UserContext = {
-    data: User | undefined;
-    setData: React.Dispatch<React.SetStateAction<User | undefined>>;
+    data: User | null;
+    setData: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 const UserContext = createContext({} as UserContext);

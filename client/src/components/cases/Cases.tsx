@@ -3,21 +3,20 @@ import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
 import { useUserData } from "../../context/UserContext";
 import CaseCard from "./CaseCard";
-import { toast } from "react-hot-toast";
 import DAMCard from "./DAMCard";
 import { HiOutlineSearch } from "react-icons/hi";
 
 interface props {
-    openFormModal: () => void;
-    openDetailsModal: () => void;
+    openDAMModal: () => void;
+    openFullCaseModal: () => void;
     // TODO:
-    setFullCardDetails: any;
+    setDAMReqDetails: any;
 }
 
 const CasesList = ({
-    openFormModal,
-    openDetailsModal,
-    setFullCardDetails,
+    openDAMModal,
+    openFullCaseModal,
+    setDAMReqDetails,
 }: props) => {
     const { token } = useToken();
     const { data } = useUserData();
@@ -141,7 +140,7 @@ const CasesList = ({
                 </div>
                 <button
                     className="btn btn-primary btn-md px-5"
-                    onClick={openFormModal}
+                    onClick={openDAMModal}
                 >
                     <span>Nouvelle demande</span>
                 </button>
@@ -153,16 +152,15 @@ const CasesList = ({
                               <DAMCard
                                   key={item._id}
                                   request={item}
-                                  openDetailsModal={openDetailsModal}
-                                  setFullCardDetails={setFullCardDetails}
+                                  openDAMModal={openDAMModal}
+                                  setDAMReqDetails={setDAMReqDetails}
                               />
                           ))
                         : (filteredItems as FullCase[]).map((item) => (
                               <CaseCard
                                   key={item._id}
                                   fullCase={item}
-                                  openDetailsModal={openDetailsModal}
-                                  setFullCardDetails={setFullCardDetails}
+                                  openFullCaseModal={openFullCaseModal}
                               />
                           ))}
                 </ul>

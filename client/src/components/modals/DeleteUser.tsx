@@ -6,7 +6,7 @@ import useToken from "../../hooks/useToken";
 interface props {
     users: User[];
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
-    actionUser: User | undefined;
+    actionUser: User | null;
     isOpen: boolean;
     close: () => void;
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const {
     getCaseById,
     getAllCases,
+    archiveCase,
     deleteCase,
 } = require("../controllers/fullCase");
 const router = express.Router();
@@ -18,6 +19,8 @@ router.post("/", (_req, res) =>
             "Cases are created automatically when a DAM Request has been created, not through this route."
         )
 );
+
+router.patch("/:id/archive", archiveCase);
 
 router.delete("/:id", deleteCase);
 

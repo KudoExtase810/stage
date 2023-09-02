@@ -1,7 +1,6 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import FormToggle from "../FormToggle";
 
 type FormValues = {
     caseNumber: string;
@@ -33,7 +32,7 @@ const DAMForm = () => {
                 <div className="flex gap-3">
                     <div className="form-control w-full">
                         <label className="label" htmlFor="cn">
-                            <span className="label-text">Case Number</span>
+                            <span className="label-text">Numéro d'affaire</span>
                         </label>
                         <input
                             id="cn"
@@ -41,7 +40,7 @@ const DAMForm = () => {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Case Number"
+                            placeholder="Numéro d'affaire"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
@@ -69,7 +68,7 @@ const DAMForm = () => {
                 <div className="flex gap-3">
                     <div className="form-control w-full">
                         <label className="label" htmlFor="payment">
-                            <span className="label-text">Payment</span>
+                            <span className="label-text">Paiement</span>
                         </label>
                         <input
                             id="payment"
@@ -77,7 +76,7 @@ const DAMForm = () => {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Payment"
+                            placeholder="Paiement"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
@@ -103,7 +102,7 @@ const DAMForm = () => {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <div className="form-control w-3/5">
+                    <div className="form-control w-full">
                         <label className="label" htmlFor="huissier">
                             <span className="label-text">Huissier</span>
                         </label>
@@ -119,7 +118,7 @@ const DAMForm = () => {
                             {formState.errors.huissier?.message}
                         </span>
                     </div>
-                    <div className="form-control w-2/5">
+                    <div className="form-control w-full">
                         <label className="label" htmlFor="date">
                             <span className="label-text">Date</span>
                         </label>
@@ -137,19 +136,18 @@ const DAMForm = () => {
                         </span>
                     </div>
                 </div>
-                <div className="mt-6 flex gap-3">
+                <div className="mt-6">
                     <button
-                        className="btn btn-primary px-16"
+                        className="btn btn-primary w-full"
                         type="submit"
                         disabled={formState.isSubmitting}
                     >
                         {formState.isSubmitting ? (
                             <span className="loading loading-spinner loading-lg text-gray-300"></span>
                         ) : (
-                            "Submit"
+                            "Soumettre"
                         )}
                     </button>
-                    <FormToggle />
                 </div>
             </div>
         </form>

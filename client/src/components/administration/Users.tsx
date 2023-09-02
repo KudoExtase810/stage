@@ -11,7 +11,7 @@ interface props {
     openDeleteModal: () => void;
     users: User[] | [];
     setUsers: React.Dispatch<React.SetStateAction<User[] | []>>;
-    setActionUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+    setActionUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const Users = ({

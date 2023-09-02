@@ -1,37 +1,43 @@
 import { useEffect, useState } from "react";
 import _Cases from "../components/cases/Cases";
-import FormModal from "../components/modals/FormModal";
-import CardDetailsModal from "../components/modals/CardDetailsModal";
+import DAMModal from "../components/modals/DAMModal";
+import FullCaseModal from "../components/modals/FullCaseModal";
 
 export type Details = PVForm | BillForm | DAMRequest;
 
 const Cases = () => {
-    const [showFormModal, setShowFormModal] = useState(false);
-    const [showDetailsModal, setShowDetailsModal] = useState(false);
-    const [fullCardDetails, setFullCardDetails] = useState<Details | null>(
+    // Full case
+    const [showFullCaseModal, setShowFullCaseModal] = useState(false);
+    const [fullCaseDetails, setFullCaseDetails] = useState<FullCase | null>(
         null
     );
 
+    // DAM Request
+    const [showDAMModal, setShowDAMModal] = useState(false);
+    const [DAMReqDetails, setDAMReqDetails] = useState<DAMRequest | null>(null);
+
     // clear details whenever their modal closes
     useEffect(() => {
-        if (!showDetailsModal) setFullCardDetails(null);
-    }, [showDetailsModal]);
+        if (!showDAMModal) setDAMReqDetails(null);
+        if (!showFullCaseModal) setFullCaseDetails(null);
+    }, [showDAMModal, showFullCaseModal]);
 
     return (
         <>
-            <FormModal
-                isOpen={showFormModal}
-                close={() => setShowFormModal(false)}
+            <DAMModal
+                isOpen={showDAMModal}
+                close={() => setShowDAMModal(false)}
+                details={DAMReqDetails}
             />
-            <CardDetailsModal
-                isOpen={showDetailsModal}
-                close={() => setShowDetailsModal(false)}
-                details={fullCardDetails}
+            <FullCaseModal
+                isOpen={showFullCaseModal}
+                close={() => setShowFullCaseModal(false)}
+                fullCase={fullCaseDetails}
             />
             <_Cases
-                openFormModal={() => setShowFormModal(true)}
-                openDetailsModal={() => setShowDetailsModal(true)}
-                setFullCardDetails={setFullCardDetails}
+                openDAMModal={() => setShowDAMModal(true)}
+                openFullCaseModal={() => setShowFullCaseModal(true)}
+                setDAMReqDetails={setDAMReqDetails}
             />
         </>
     );

@@ -1,20 +1,14 @@
-import { Details } from "../../pages/Cases";
 import { BiSolidLockOpen, BiSolidLock } from "react-icons/bi";
 import { formatDate } from "../../utils/DateFormatter";
 
 interface props {
     fullCase: FullCase;
-    openDetailsModal: () => void;
-    setFullCardDetails: React.Dispatch<React.SetStateAction<Details | null>>;
+    openFullCaseModal: () => void;
 }
 
-const CaseCard = ({
-    fullCase,
-    openDetailsModal,
-    setFullCardDetails,
-}: props) => {
+const CaseCard = ({ fullCase, openFullCaseModal }: props) => {
     return (
-        <li className="card w-96 bg-primary text-primary-content card-compact-">
+        <li className="card w-96 bg-gray-200 hover:bg-zinc-300 text-zinc-900 card-compact-">
             {/* //! look classes above */}
 
             <div className="card-body">
@@ -25,13 +19,15 @@ const CaseCard = ({
                         max={100}
                     />
 
-                    <button>
-                        {fullCase.status === "locked" ? (
-                            <BiSolidLock size={22} />
-                        ) : (
-                            <BiSolidLockOpen size={22} />
-                        )}
-                    </button>
+                    <div className="tooltip" data-tip="Archiver">
+                        <button>
+                            {fullCase.isArchived ? (
+                                <BiSolidLock size={22} />
+                            ) : (
+                                <BiSolidLockOpen size={22} />
+                            )}
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <ul>
@@ -42,13 +38,14 @@ const CaseCard = ({
                                 "Pas encore traitée."}
                         </li>
                         <li>Créée le: {formatDate(fullCase.createdAt)}</li>
+                        {/* <li>Complétée le: {formatDate(fullCase.completedAt)}</li> */}
                     </ul>
                 </div>
                 <div className="card-actions justify-end">
                     <button
                         className="btn"
                         onClick={() => {
-                            openDetailsModal();
+                            openFullCaseModal();
                         }}
                     >
                         Voir plus

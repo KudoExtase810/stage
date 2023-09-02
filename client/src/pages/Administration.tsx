@@ -11,11 +11,11 @@ const Administration = () => {
     const [users, setUsers] = useState<User[]>([]);
 
     // The user selected for edit / delete
-    const [actionUser, setActionUser] = useState<User>();
+    const [actionUser, setActionUser] = useState<User | null>(null);
 
     // Clear the form from the user's data after closing it
     useEffect(() => {
-        if (!showUserModal && !showDeleteModal) setActionUser(undefined);
+        if (!showUserModal && !showDeleteModal) setActionUser(null);
     }, [showUserModal, showDeleteModal]);
 
     return (

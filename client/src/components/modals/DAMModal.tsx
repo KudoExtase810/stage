@@ -7,7 +7,7 @@ interface props {
     close: () => void;
 }
 
-const CardDetailsModal = ({ details, isOpen, close }: props) => {
+const DAMModal = ({ details, isOpen, close }: props) => {
     return (
         <dialog className="modal" open={isOpen}>
             <div className="modal-box w-full">
@@ -31,4 +31,4 @@ const CardDetailsModal = ({ details, isOpen, close }: props) => {
     );
 };
 
-export default CardDetailsModal;
+export default DAMModal;

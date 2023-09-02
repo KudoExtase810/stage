@@ -11,8 +11,8 @@ interface props {
     close: () => void;
     users: User[] | [];
     setUsers: React.Dispatch<React.SetStateAction<User[] | []>>;
-    actionUser: User | undefined;
-    setActionUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+    actionUser: User | null;
+    setActionUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 type FormValues = {

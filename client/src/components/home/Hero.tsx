@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import goku from "../../assets/goku.webp";
 import { useUserData } from "../../context/UserContext";
-interface props {
-    openModal: () => void;
-}
-const Hero = ({ openModal }: props) => {
+
+const Hero = () => {
     const { data } = useUserData();
     // Generate appropriate greetings message based on time
     const greetBasedOnTime = () => {

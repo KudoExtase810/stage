@@ -71,5 +71,6 @@ type FullCase = {
     progress: 0 | 1 | 2 | 3;
     createdAt: string;
     updatedAt: string;
-    status: "locked" | "unlocked";
+    completedAt: string;
+    isArchived: boolean;
 };

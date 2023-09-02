@@ -2,11 +2,11 @@ import { Details } from "../../pages/Cases";
 
 interface props {
     request: DAMRequest;
-    openDetailsModal: () => void;
-    setFullCardDetails: React.Dispatch<React.SetStateAction<Details | null>>;
+    openDAMModal: () => void;
+    setDAMReqDetails: React.Dispatch<React.SetStateAction<Details | null>>;
 }
 
-const DAMCard = ({ request, openDetailsModal, setFullCardDetails }: props) => {
+const DAMCard = ({ request, openDAMModal, setDAMReqDetails }: props) => {
     const { caseNumber, place, service, updatedAt } = request;
     return (
         <li className="card w-96 bg-primary text-primary-content">
@@ -21,8 +21,8 @@ const DAMCard = ({ request, openDetailsModal, setFullCardDetails }: props) => {
                     <button
                         className="btn"
                         onClick={() => {
-                            openDetailsModal();
-                            setFullCardDetails(request);
+                            openDAMModal();
+                            setDAMReqDetails(request);
                         }}
                     >
                         Voir plus

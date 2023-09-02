@@ -4,11 +4,11 @@ import { FiTrash } from "react-icons/fi";
 import { formatDate } from "../../utils/DateFormatter";
 
 interface props {
-    user: User | undefined;
+    user: User | null;
     index: number;
     openActionModal: () => void;
     openDeleteModal: () => void;
-    setActionUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+    setActionUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 const SingleUser = ({
     user,
