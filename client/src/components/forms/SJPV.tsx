@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 type FormValues = {
     caseNumber: string;
@@ -13,8 +14,12 @@ type FormValues = {
     from: string;
 };
 
-const SJPVForm = () => {
-    const { register, handleSubmit, formState } = useForm<FormValues>();
+interface props {
+    existingData: PVForm | undefined;
+}
+const SJPVForm = ({ existingData }: props) => {
+    const { register, handleSubmit, formState, setValue, reset } =
+        useForm<FormValues>();
 
     const createPost = async (data: FormValues) => {
         try {
@@ -23,6 +28,22 @@ const SJPVForm = () => {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
+
+    // set default field values to existing data if it exists ( if you're not creating )
+    useEffect(() => {
+        if (existingData) {
+            setValue("caseNumber", existingData.caseNumber);
+            setValue("date", existingData.date);
+            setValue("place", existingData.place);
+            setValue("commission", existingData.commission);
+            setValue("service", existingData.service);
+            setValue("subject", existingData.subject);
+            setValue("huissier", existingData.huissier);
+            setValue("from", existingData.from);
+        } else {
+            reset();
+        }
+    }, [existingData]);
 
     return (
         <form

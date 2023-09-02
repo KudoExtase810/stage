@@ -16,7 +16,7 @@ const UserContext = createContext({} as UserContext);
 export const useUserData = () => useContext(UserContext);
 
 const UserContextProvider = ({ children }: CtxProps) => {
-    const [data, setData] = useState<User>();
+    const [data, setData] = useState<User | null>(null);
     const { userId } = useToken();
 
     useEffect(() => {

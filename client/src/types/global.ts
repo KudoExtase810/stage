@@ -32,6 +32,7 @@ type SJRequest = {
     service: string;
     subject: string;
     huissier: string;
+    from: string;
 };
 type PVForm = {
     _id: string;

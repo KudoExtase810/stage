@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 type FormValues = {
     caseNumber: string;
@@ -11,8 +12,12 @@ type FormValues = {
     huissier: string;
 };
 
-const DAMForm = () => {
-    const { register, handleSubmit, formState } = useForm<FormValues>();
+interface props {
+    existingData: BillForm | undefined;
+}
+const SJBillForm = ({ existingData }: props) => {
+    const { register, handleSubmit, formState, setValue, reset } =
+        useForm<FormValues>();
 
     const createPost = async (data: FormValues) => {
         try {
@@ -21,6 +26,19 @@ const DAMForm = () => {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
+
+    // set default field values to existing data if it exists ( if you're not creating )
+    useEffect(() => {
+        if (existingData) {
+            setValue("caseNumber", existingData.caseNumber);
+            setValue("date", existingData.date);
+            setValue("place", existingData.place);
+            setValue("payment", existingData.payment);
+            setValue("huissier", existingData.huissier);
+        } else {
+            reset();
+        }
+    }, [existingData]);
 
     return (
         <form
@@ -154,4 +172,4 @@ const DAMForm = () => {
     );
 };
 
-export default DAMForm;
+export default SJBillForm;

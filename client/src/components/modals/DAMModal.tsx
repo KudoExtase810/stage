@@ -1,5 +1,7 @@
+import { MdClose } from "react-icons/md";
 import { Details } from "../../pages/Cases";
 import t from "../../utils/TranslateKeys";
+import DAMForm from "../forms/DAM";
 
 interface props {
     details: Details | null;
@@ -10,8 +12,8 @@ interface props {
 const DAMModal = ({ details, isOpen, close }: props) => {
     return (
         <dialog className="modal" open={isOpen}>
-            <div className="modal-box w-full">
-                {details && (
+            <div className="modal-box max-w-3xl">
+                {/* {details && (
                     <ul className="flex flex-col">
                         {Object.keys(details).map((detail, idx) => (
                             <li key={idx}>
@@ -20,12 +22,14 @@ const DAMModal = ({ details, isOpen, close }: props) => {
                             </li>
                         ))}
                     </ul>
-                )}
-                <div className="modal-action">
-                    <button className="btn" onClick={close}>
-                        Fermer
-                    </button>
-                </div>
+                )} */}
+                <button onClick={close}>
+                    <MdClose
+                        size={32}
+                        className="absolute right-6 top-6 hover:text-primary z-10"
+                    />
+                </button>
+                <DAMForm />
             </div>
         </dialog>
     );
