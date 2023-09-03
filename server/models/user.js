@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema(
             required: true,
             enum: ["DAM", "SJ", "Admin"],
         },
+        rating: { type: Number, enum: [1, 2, 3, 4, 5] },
     },
     { timestamps: true }
 );

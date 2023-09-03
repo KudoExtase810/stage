@@ -3,10 +3,15 @@ import { formatDate } from "../../utils/DateFormatter";
 
 interface props {
     fullCase: FullCase;
+    setFullCaseDetails: React.Dispatch<React.SetStateAction<FullCase | null>>;
     openFullCaseModal: () => void;
 }
 
-const CaseCard = ({ fullCase, openFullCaseModal }: props) => {
+const CaseCard = ({
+    fullCase,
+    openFullCaseModal,
+    setFullCaseDetails,
+}: props) => {
     return (
         <li className="card w-96 bg-gray-200 hover:bg-zinc-300 text-zinc-900 card-compact-">
             {/* //! look classes above */}
@@ -45,6 +50,7 @@ const CaseCard = ({ fullCase, openFullCaseModal }: props) => {
                     <button
                         className="btn"
                         onClick={() => {
+                            setFullCaseDetails(fullCase);
                             openFullCaseModal();
                         }}
                     >

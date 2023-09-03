@@ -23,7 +23,9 @@ const Hero = () => {
                     </h1>
                     <p className="py-6">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ad maiores debitis fuga explicabo impedit.
+                        Nostrum exercitationem nesciunt cupiditate officiis
+                        voluptatibus quos culpa voluptatem dolor voluptates.
+                        Voluptate!
                     </p>
                     {data?.role === "Admin" ? (
                         <Link to="/administration" className="btn btn-primary">

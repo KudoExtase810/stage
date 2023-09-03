@@ -2,6 +2,8 @@ import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import useToken from "../../hooks/useToken";
+import axiosIns from "../../common/axios";
 
 type FormValues = {
     caseNumber: string;
@@ -15,15 +17,30 @@ type FormValues = {
 };
 
 interface props {
+    fullCaseId: string;
     existingData: PVForm | undefined;
+    nextPage: () => void;
 }
-const SJPVForm = ({ existingData }: props) => {
+const SJPVForm = ({ fullCaseId, existingData, nextPage }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
+    const { token } = useToken();
+
+    // create PV
     const createPost = async (data: FormValues) => {
         try {
-            toast.success(data.date);
+            const url = "/forms/SJ/pv";
+            const res = await axiosIns.post(
+                url,
+                {
+                    ...data,
+                    assignTo: fullCaseId,
+                },
+                { headers: { authorization: `Bearer ${token}` } }
+            );
+            toast.success("All good bro");
+            nextPage();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }

@@ -5,6 +5,7 @@ const {
     editUser,
     getUser,
     getAllUsers,
+    setUserRating,
 } = require("../controllers/users");
 const { isAdmin } = require("../middlewares/auth");
 
@@ -20,6 +21,8 @@ router.get("/:userId", getUser);
 
 // UPDATE
 router.put("/:userId", isAdmin, editUser);
+// TODO: create isAuth and add it below
+router.patch("/userId", setUserRating);
 
 // DELETE
 router.delete("/:userId", isAdmin, deleteUser);

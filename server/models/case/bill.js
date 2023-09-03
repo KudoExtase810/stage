@@ -7,6 +7,7 @@ const BillSchema = new mongoose.Schema({
         required: true,
     },
     place: { type: String, required: true },
+    service: { type: String, required: true },
     huissier: { type: String, required: true },
     payment: { type: String, required: true },
 });

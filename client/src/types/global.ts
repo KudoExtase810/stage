@@ -65,8 +65,10 @@ type SJCase = {
 // Full thing SJ+DAM
 type FullCase = {
     _id: string;
-    DAM: DAMRequest;
-    SJ: SJCase;
+    DAMRequest: DAMRequest;
+    SJRequest: SJRequest;
+    PV: PVForm;
+    bill: BillForm;
     requestedBy: User;
     handledBy: User;
     progress: 0 | 1 | 2 | 3;

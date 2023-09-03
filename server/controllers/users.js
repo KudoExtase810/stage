@@ -28,7 +28,7 @@ async function getUser(req, res) {
     }
 }
 
-async function getAllUsers(req, res) {
+async function getAllUsers(_req, res) {
     try {
         const allUsers = await User.find({}).sort({ username: "ascending" });
         res.status(200).json(allUsers);
@@ -49,6 +49,22 @@ async function editUser(req, res) {
     }
 }
 
+async function setUserRating(req, res) {
+    try {
+        const { id } = req.params;
+        const user = User.findById(id);
+
+        if (!user) return res.status(404).json({ message: "User not found." });
+
+        user.rating = req.body.rating;
+        await user.save();
+
+        res.status(200).json({ message: "User rating set with success." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 // DELETE
 async function deleteUser(req, res) {
     try {
@@ -60,4 +76,11 @@ async function deleteUser(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-module.exports = { createUser, getUser, getAllUsers, deleteUser, editUser };
+module.exports = {
+    createUser,
+    getUser,
+    getAllUsers,
+    deleteUser,
+    editUser,
+    setUserRating,
+};

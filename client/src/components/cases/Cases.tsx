@@ -9,7 +9,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 interface props {
     openDAMModal: () => void;
     openFullCaseModal: () => void;
-    // TODO:
+    setFullCaseDetails: React.Dispatch<React.SetStateAction<FullCase | null>>;
     setDAMReqDetails: any;
 }
 
@@ -17,6 +17,7 @@ const CasesList = ({
     openDAMModal,
     openFullCaseModal,
     setDAMReqDetails,
+    setFullCaseDetails,
 }: props) => {
     const { token } = useToken();
     const { data } = useUserData();
@@ -161,6 +162,7 @@ const CasesList = ({
                                   key={item._id}
                                   fullCase={item}
                                   openFullCaseModal={openFullCaseModal}
+                                  setFullCaseDetails={setFullCaseDetails}
                               />
                           ))}
                 </ul>

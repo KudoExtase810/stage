@@ -13,9 +13,21 @@ interface props {
 
 const FullCaseModal = ({ isOpen, close, fullCase }: props) => {
     const pages = [
-        <SJForm existingData={fullCase?.SJ?.demande} />,
-        <SJPVForm existingData={fullCase?.SJ?.pv} />,
-        <SJBillForm existingData={fullCase?.SJ?.bill} />,
+        <SJForm
+            existingData={fullCase?.SJRequest}
+            fullCaseId={fullCase?._id!}
+            nextPage={() => handlePage(1)}
+        />,
+        <SJPVForm
+            existingData={fullCase?.PV}
+            fullCaseId={fullCase?._id!}
+            nextPage={() => handlePage(1)}
+        />,
+        <SJBillForm
+            existingData={fullCase?.bill}
+            fullCaseId={fullCase?._id!}
+            close={close}
+        />,
     ];
     const [pageIndex, setPageIndex] = useState(0);
 

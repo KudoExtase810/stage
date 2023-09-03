@@ -38,6 +38,7 @@ const Cases = () => {
                 openDAMModal={() => setShowDAMModal(true)}
                 openFullCaseModal={() => setShowFullCaseModal(true)}
                 setDAMReqDetails={setDAMReqDetails}
+                setFullCaseDetails={setFullCaseDetails}
             />
         </>
     );
