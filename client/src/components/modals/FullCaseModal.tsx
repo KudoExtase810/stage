@@ -4,27 +4,32 @@ import { useEffect, useState } from "react";
 import SJForm from "../forms/SJ";
 import SJPVForm from "../forms/SJPV";
 import SJBillForm from "../forms/SJBill";
+import Overlay from "../Overlay";
 
 interface props {
     isOpen: boolean;
     close: () => void;
     fullCase: FullCase | null;
+    fullCases: FullCase[];
 }
 
-const FullCaseModal = ({ isOpen, close, fullCase }: props) => {
+const FullCaseModal = ({ isOpen, close, fullCase, fullCases }: props) => {
     // Each form data is not populated on the backend and only its id is assigned to the case when created
     const pages = [
         <SJForm
+            fullCases={fullCases}
             formId={fullCase?.SJRequest}
             fullCaseId={fullCase?._id!}
             nextPage={() => handlePage(1)}
         />,
         <SJPVForm
+            fullCases={fullCases}
             formId={fullCase?.PV}
             fullCaseId={fullCase?._id!}
             nextPage={() => handlePage(1)}
         />,
         <SJBillForm
+            fullCases={fullCases}
             formId={fullCase?.bill}
             fullCaseId={fullCase?._id!}
             close={close}
@@ -55,6 +60,7 @@ const FullCaseModal = ({ isOpen, close, fullCase }: props) => {
 
     return (
         <dialog className="modal" open={isOpen}>
+            <Overlay />
             <div className="modal-box max-w-3xl">
                 <button onClick={close}>
                     <MdClose

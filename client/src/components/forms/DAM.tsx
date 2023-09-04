@@ -17,8 +17,14 @@ interface props {
     DAMRequests: DAMRequest[];
     setDAMRequests: React.Dispatch<React.SetStateAction<DAMRequest[]>>;
     existingData: DAMRequest;
+    readOnlyMode?: boolean;
 }
-const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
+const DAMForm = ({
+    DAMRequests,
+    setDAMRequests,
+    existingData,
+    readOnlyMode,
+}: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -88,6 +94,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Numéro d'affaire</span>
                         </label>
                         <input
+                            disabled={readOnlyMode}
                             id="cn"
                             {...register("caseNumber", {
                                 required: "Ce champ est obligatoire.",
@@ -105,6 +112,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Place</span>
                         </label>
                         <input
+                            disabled={readOnlyMode}
                             id="place"
                             {...register("place", {
                                 required: "Ce champ est obligatoire.",
@@ -124,6 +132,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Commission</span>
                         </label>
                         <input
+                            disabled={readOnlyMode}
                             id="commission"
                             {...register("commission", {
                                 required: "Ce champ est obligatoire.",
@@ -141,6 +150,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Service</span>
                         </label>
                         <input
+                            disabled={readOnlyMode}
                             id="service"
                             {...register("service", {
                                 required: "Ce champ est obligatoire.",
@@ -160,6 +170,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Description</span>
                         </label>
                         <textarea
+                            disabled={readOnlyMode}
                             id="desc"
                             {...register("description", {
                                 required: "Ce champ est obligatoire.",
@@ -176,6 +187,7 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                             <span className="label-text">Date</span>
                         </label>
                         <input
+                            disabled={readOnlyMode}
                             id="date"
                             {...register("date", {
                                 required: "Ce champ est obligatoire.",
@@ -189,19 +201,21 @@ const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
                         </span>
                     </div>
                 </div>
-                <div className="mt-6">
-                    <button
-                        className="btn btn-primary w-full"
-                        type="submit"
-                        disabled={formState.isSubmitting}
-                    >
-                        {formState.isSubmitting ? (
-                            <span className="loading loading-spinner loading-lg text-gray-300"></span>
-                        ) : (
-                            "Soumettre"
-                        )}
-                    </button>
-                </div>
+                {readOnlyMode || (
+                    <div className="mt-6">
+                        <button
+                            className="btn btn-primary w-full"
+                            type="submit"
+                            disabled={formState.isSubmitting}
+                        >
+                            {formState.isSubmitting ? (
+                                <span className="loading loading-spinner loading-lg text-gray-300"></span>
+                            ) : (
+                                "Soumettre"
+                            )}
+                        </button>
+                    </div>
+                )}
             </div>
         </form>
     );

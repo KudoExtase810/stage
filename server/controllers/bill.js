@@ -24,6 +24,7 @@ async function createBill(req, res) {
 
         res.status(201).json({
             message: "New bill created and assigned successfully.",
+            updatedFullCase: fullCase,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

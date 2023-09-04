@@ -5,6 +5,7 @@ import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import useToken from "../../hooks/useToken";
+import Overlay from "../Overlay";
 
 interface props {
     isOpen: boolean;
@@ -73,6 +74,7 @@ const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
 
     return (
         <dialog className="modal" open={isOpen}>
+            <Overlay />
             <div className="modal-box max-w-xl p-0">
                 <button onClick={close}>
                     <MdClose

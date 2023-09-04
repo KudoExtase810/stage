@@ -1,4 +1,5 @@
 import { BiSolidLockOpen, BiSolidLock } from "react-icons/bi";
+import { CgNotes } from "react-icons/cg";
 import { formatDate } from "../../utils/DateFormatter";
 import { toast } from "react-hot-toast";
 
@@ -7,6 +8,7 @@ interface props {
     setFullCaseDetails: React.Dispatch<React.SetStateAction<FullCase | null>>;
     openFullCaseModal: () => void;
     openArchiveCaseModal: () => void;
+    openDAMModal: () => void;
 }
 
 const CaseCard = ({
@@ -14,6 +16,7 @@ const CaseCard = ({
     openFullCaseModal,
     openArchiveCaseModal,
     setFullCaseDetails,
+    openDAMModal,
 }: props) => {
     const {
         _id,
@@ -68,7 +71,20 @@ const CaseCard = ({
                         {/* <li>Complétée le: {formatDate(completedAt)}</li> */}
                     </ul>
                 </div>
-                <div className="card-actions justify-end">
+                <div className="card-actions items-center justify-between">
+                    <div
+                        className="tooltip tooltip-right tooltip-accent"
+                        data-tip="Voir la demande"
+                    >
+                        <button
+                            onClick={() => {
+                                setFullCaseDetails(fullCase);
+                                openDAMModal();
+                            }}
+                        >
+                            <CgNotes size={22} />
+                        </button>
+                    </div>
                     <button
                         className="btn btn-accent"
                         onClick={() => {

@@ -12,6 +12,7 @@ interface props {
     openFullCaseModal: () => void;
     openArchiveCaseModal: () => void;
     setFullCaseDetails: React.Dispatch<React.SetStateAction<FullCase | null>>;
+    openDAMModal: () => void;
 }
 
 const AllCases = ({
@@ -20,6 +21,7 @@ const AllCases = ({
     openFullCaseModal,
     openArchiveCaseModal,
     setFullCaseDetails,
+    openDAMModal,
 }: props) => {
     const { token } = useToken();
 
@@ -122,6 +124,7 @@ const AllCases = ({
                             openFullCaseModal={openFullCaseModal}
                             openArchiveCaseModal={openArchiveCaseModal}
                             setFullCaseDetails={setFullCaseDetails}
+                            openDAMModal={openDAMModal}
                         />
                     ))}
                 </ul>

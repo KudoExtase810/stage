@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import axiosIns from "../../common/axios";
 import { isAxiosError } from "axios";
 import useToken from "../../hooks/useToken";
+import Overlay from "../Overlay";
 
 interface props {
     users: User[];
@@ -36,6 +37,7 @@ const DeleteUser = ({ users, setUsers, actionUser, isOpen, close }: props) => {
 
     return (
         <dialog className="modal" open={isOpen}>
+            <Overlay />
             <div className="modal-box w-full max-w-2xl">
                 <h3 className="font-bold text-lg">
                     Supprimer {actionUser?.username}?

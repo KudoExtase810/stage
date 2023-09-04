@@ -17,10 +17,10 @@ type FormValues = {
 interface props {
     fullCaseId: string;
     formId: string | undefined;
-
     close: () => void;
+    fullCases: FullCase[];
 }
-const SJBillForm = ({ fullCaseId, formId, close }: props) => {
+const SJBillForm = ({ fullCaseId, formId, close, fullCases }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -39,6 +39,10 @@ const SJBillForm = ({ fullCaseId, formId, close }: props) => {
                 { headers: { authorization: `Bearer ${token}` } }
             );
             toast.success("All good bro");
+            const updatedCase = fullCases.find((c) => c._id === fullCaseId)!;
+            updatedCase.progress = res.data.updatedFullCase.progress;
+            updatedCase.bill = res.data.updatedFullCase.bill;
+
             close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
@@ -48,12 +52,13 @@ const SJBillForm = ({ fullCaseId, formId, close }: props) => {
     const editPost = async (data: FormValues) => {
         try {
             const url = `/forms/SJ/bill/${formId}`;
-            const res = await axiosIns.post(url, data, {
+            const res = await axiosIns.put(url, data, {
                 headers: { authorization: `Bearer ${token}` },
             });
             toast.success("All good bro");
             close();
         } catch (error) {
+            console.log(error);
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
@@ -70,6 +75,7 @@ const SJBillForm = ({ fullCaseId, formId, close }: props) => {
             setValue("date", res.data.date);
             setValue("place", res.data.place);
             setValue("payment", res.data.payment);
+            setValue("service", res.data.service);
             setValue("huissier", res.data.huissier);
         };
         formId ? getData() : reset();

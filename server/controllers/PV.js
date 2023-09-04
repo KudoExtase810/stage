@@ -24,6 +24,7 @@ async function createPV(req, res) {
 
         res.status(201).json({
             message: "New PV created and assigned successfully.",
+            updatedFullCase: fullCase,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

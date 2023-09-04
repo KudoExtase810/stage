@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import goku from "../../assets/goku.webp";
+import sonelgaz from "../../assets/Sonelgaz.png";
 import { useAuth } from "../../context/UserContext";
 
 const Hero = () => {
@@ -13,19 +13,17 @@ const Hero = () => {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <img
-                    src={goku}
-                    className="max-w-sm rounded-lg shadow-2xl"
+                    src={sonelgaz}
+                    className="max-w-sm rounded-lg"
                     alt="goku"
                 />
                 <div>
                     <h1 className="text-5xl font-bold">
                         {greetBasedOnTime()}, {userData?.username}
                     </h1>
-                    <p className="py-6">
+                    <p className=" invisible">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Nostrum exercitationem nesciunt cupiditate officiis
-                        voluptatibus quos culpa voluptatem dolor voluptates.
-                        Voluptate!
                     </p>
                     {userData?.role === "Admin" ? (
                         <Link to="/administration" className="btn btn-primary">

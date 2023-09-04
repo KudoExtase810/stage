@@ -19,8 +19,9 @@ interface props {
     fullCaseId: string;
     formId: string | undefined;
     nextPage: () => void;
+    fullCases: FullCase[];
 }
-const SJForm = ({ fullCaseId, formId, nextPage }: props) => {
+const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -39,6 +40,10 @@ const SJForm = ({ fullCaseId, formId, nextPage }: props) => {
                 { headers: { authorization: `Bearer ${token}` } }
             );
             toast.success("All good bro");
+            const updatedCase = fullCases.find((c) => c._id === fullCaseId)!;
+            updatedCase.progress = res.data.updatedFullCase.progress;
+            updatedCase.SJRequest = res.data.updatedFullCase.SJRequest;
+
             nextPage();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);

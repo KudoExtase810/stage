@@ -1,5 +1,6 @@
 import { MdClose } from "react-icons/md";
 import DAMForm from "../forms/DAM";
+import Overlay from "../Overlay";
 
 interface props {
     details: DAMRequest;
@@ -7,6 +8,7 @@ interface props {
     close: () => void;
     DAMRequests: DAMRequest[];
     setDAMRequests: React.Dispatch<React.SetStateAction<DAMRequest[]>>;
+    readOnlyMode?: boolean;
 }
 
 const DAMModal = ({
@@ -15,9 +17,11 @@ const DAMModal = ({
     close,
     DAMRequests,
     setDAMRequests,
+    readOnlyMode,
 }: props) => {
     return (
         <dialog className="modal" open={isOpen}>
+            <Overlay />
             <div className="modal-box max-w-3xl">
                 <button onClick={close}>
                     <MdClose
@@ -26,6 +30,7 @@ const DAMModal = ({
                     />
                 </button>
                 <DAMForm
+                    readOnlyMode={readOnlyMode}
                     DAMRequests={DAMRequests}
                     setDAMRequests={setDAMRequests}
                     existingData={details}
@@ -36,15 +41,3 @@ const DAMModal = ({
 };
 
 export default DAMModal;
-{
-    /* //! {details && (
-                    <ul className="flex flex-col">
-                        {Object.keys(details).map((detail, idx) => (
-                            <li key={idx}>
-                                {t(detail)}:{" "}
-                                {(details as Record<string, string>)[detail]}
-                            </li>
-                        ))}
-                    </ul>
-                )} */
-}

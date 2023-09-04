@@ -24,6 +24,7 @@ async function createRequest(req, res) {
         res.status(201).json({
             message: "Request created successfully.",
             assignedTo: fullCase._id,
+            updatedFullCase: fullCase,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
