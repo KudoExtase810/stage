@@ -19,6 +19,7 @@ async function createPV(req, res) {
             return res.status(404).json({ message: "Full case not found." });
 
         fullCase.PV = newPV._id;
+        fullCase.progress < 3 && fullCase.progress++;
         await fullCase.save();
 
         res.status(201).json({

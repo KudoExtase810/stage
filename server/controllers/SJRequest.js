@@ -18,6 +18,7 @@ async function createRequest(req, res) {
 
         // link the created request with the full case in order to reference it later.
         fullCase.SJRequest = newRequest._id;
+        fullCase.progress < 3 && fullCase.progress++;
         await fullCase.save();
 
         res.status(201).json({
