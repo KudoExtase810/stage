@@ -4,6 +4,7 @@ import { isAxiosError } from "axios";
 import useToken from "../../hooks/useToken";
 import Overlay from "../Overlay";
 
+// interface function defines types
 interface props {
     users: User[];
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
