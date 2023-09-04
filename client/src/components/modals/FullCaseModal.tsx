@@ -1,6 +1,6 @@
 import { MdClose } from "react-icons/md";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SJForm from "../forms/SJ";
 import SJPVForm from "../forms/SJPV";
 import SJBillForm from "../forms/SJBill";
@@ -12,19 +12,20 @@ interface props {
 }
 
 const FullCaseModal = ({ isOpen, close, fullCase }: props) => {
+    // Each form data is not populated on the backend and only its id is assigned to the case when created
     const pages = [
         <SJForm
-            existingData={fullCase?.SJRequest}
+            formId={fullCase?.SJRequest}
             fullCaseId={fullCase?._id!}
             nextPage={() => handlePage(1)}
         />,
         <SJPVForm
-            existingData={fullCase?.PV}
+            formId={fullCase?.PV}
             fullCaseId={fullCase?._id!}
             nextPage={() => handlePage(1)}
         />,
         <SJBillForm
-            existingData={fullCase?.bill}
+            formId={fullCase?.bill}
             fullCaseId={fullCase?._id!}
             close={close}
         />,
@@ -42,6 +43,15 @@ const FullCaseModal = ({ isOpen, close, fullCase }: props) => {
 
         setPageIndex(newIndex);
     };
+
+    useEffect(() => {
+        // progress can be 0 / 1 / 2 / 3
+        // page index should be 0 / 1 / 2
+        if (fullCase?.progress === 0) return setPageIndex(0);
+        if (fullCase?.progress) {
+            setPageIndex(fullCase.progress - 1);
+        }
+    }, [fullCase]);
 
     return (
         <dialog className="modal" open={isOpen}>

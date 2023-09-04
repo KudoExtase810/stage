@@ -1,32 +1,55 @@
 import { BiSolidLockOpen, BiSolidLock } from "react-icons/bi";
 import { formatDate } from "../../utils/DateFormatter";
+import { toast } from "react-hot-toast";
 
 interface props {
     fullCase: FullCase;
     setFullCaseDetails: React.Dispatch<React.SetStateAction<FullCase | null>>;
     openFullCaseModal: () => void;
+    openArchiveCaseModal: () => void;
 }
 
 const CaseCard = ({
     fullCase,
     openFullCaseModal,
+    openArchiveCaseModal,
     setFullCaseDetails,
 }: props) => {
-    return (
-        <li className="card w-96 bg-gray-200 hover:bg-zinc-300 text-zinc-900 card-compact-">
-            {/* //! look classes above */}
+    const {
+        _id,
+        progress,
+        isArchived,
+        requestedBy,
+        handledBy,
+        createdAt,
+        completedAt,
+    } = fullCase;
 
+    return (
+        <li className="card w-96 bg-zinc-300 text-zinc-900">
             <div className="card-body">
                 <div className="flex justify-between items-center gap-3">
                     <progress
                         className="progress progress-accent bg-gray-400"
-                        value={(fullCase.progress / 3) * 100}
+                        value={(progress / 3) * 100}
                         max={100}
                     />
 
-                    <div className="tooltip" data-tip="Archiver">
-                        <button>
-                            {fullCase.isArchived ? (
+                    <div
+                        className="tooltip tooltip-accent"
+                        data-tip={isArchived ? "Archivée" : "Archiver"}
+                    >
+                        <button
+                            onClick={() => {
+                                if (isArchived)
+                                    return toast.error(
+                                        "Cette affaire est deja archivée."
+                                    );
+                                setFullCaseDetails(fullCase);
+                                openArchiveCaseModal();
+                            }}
+                        >
+                            {isArchived ? (
                                 <BiSolidLock size={22} />
                             ) : (
                                 <BiSolidLockOpen size={22} />
@@ -36,19 +59,18 @@ const CaseCard = ({
                 </div>
                 <div>
                     <ul>
-                        <li>Établie par: {fullCase.requestedBy.username}</li>
+                        <li>Établie par: {requestedBy.username}</li>
                         <li>
                             Traitée par:{" "}
-                            {fullCase.handledBy?.username ||
-                                "Pas encore traitée."}
+                            {handledBy?.username || "Pas encore traitée."}
                         </li>
-                        <li>Créée le: {formatDate(fullCase.createdAt)}</li>
-                        {/* <li>Complétée le: {formatDate(fullCase.completedAt)}</li> */}
+                        <li>Créée le: {formatDate(createdAt)}</li>
+                        {/* <li>Complétée le: {formatDate(completedAt)}</li> */}
                     </ul>
                 </div>
                 <div className="card-actions justify-end">
                     <button
-                        className="btn"
+                        className="btn btn-accent"
                         onClick={() => {
                             setFullCaseDetails(fullCase);
                             openFullCaseModal();

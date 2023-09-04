@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Users from "../components/administration/Users";
 import UserModal from "../components/modals/UserModal";
 import DeleteUser from "../components/modals/DeleteUser";
@@ -13,11 +13,6 @@ const Administration = () => {
     // The user selected for edit / delete
     const [actionUser, setActionUser] = useState<User | null>(null);
 
-    // Clear the form from the user's data after closing it
-    useEffect(() => {
-        if (!showUserModal && !showDeleteModal) setActionUser(null);
-    }, [showUserModal, showDeleteModal]);
-
     return (
         <>
             <UserModal
@@ -26,7 +21,10 @@ const Administration = () => {
                 actionUser={actionUser}
                 setActionUser={setActionUser}
                 isOpen={showUserModal}
-                close={() => setShowUserModal(false)}
+                close={() => {
+                    setShowUserModal(false);
+                    setActionUser(null);
+                }}
             />
 
             <DeleteUser
@@ -34,7 +32,10 @@ const Administration = () => {
                 setUsers={setUsers}
                 actionUser={actionUser}
                 isOpen={showDeleteModal}
-                close={() => setShowDeleteModal(false)}
+                close={() => {
+                    setShowDeleteModal(false);
+                    setActionUser(null);
+                }}
             />
 
             <Users

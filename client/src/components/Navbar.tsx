@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { useUserData } from "../context/UserContext";
+import { useAuth } from "../context/UserContext";
 import cookies from "js-cookie";
-import dbClip from "../../public/ggg.mp3";
 
 const Navbar = () => {
-    const { data } = useUserData();
+    const { userData } = useAuth();
 
     const handleLogout = () => {
         cookies.remove("sg-auth-token");
@@ -29,10 +28,10 @@ const Navbar = () => {
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <Link to="/">You are {data?.role}</Link>
+                        <Link to="/">You are {userData?.role}</Link>
                     </li>
                 </ul>
-                {data ? (
+                {userData ? (
                     <button
                         className="btn btn-outline btn-error mr-1"
                         onClick={handleLogout}
@@ -48,12 +47,7 @@ const Navbar = () => {
                     </Link>
                 )}
 
-                <label
-                    className="swap swap-rotate btn btn-ghost btn-circle"
-                    onClick={() => {
-                        new Audio(dbClip).play();
-                    }}
-                >
+                <label className="swap swap-rotate btn btn-ghost btn-circle">
                     <input type="checkbox" data-toggle-theme="light,dark" />
                     <svg
                         className="swap-on fill-current w-7 h-7"

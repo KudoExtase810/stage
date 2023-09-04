@@ -1,19 +1,43 @@
 import { MdClose } from "react-icons/md";
-import { Details } from "../../pages/Cases";
-import t from "../../utils/TranslateKeys";
 import DAMForm from "../forms/DAM";
 
 interface props {
-    details: Details | null;
+    details: DAMRequest;
     isOpen: boolean;
     close: () => void;
+    DAMRequests: DAMRequest[];
+    setDAMRequests: React.Dispatch<React.SetStateAction<DAMRequest[]>>;
 }
 
-const DAMModal = ({ details, isOpen, close }: props) => {
+const DAMModal = ({
+    details,
+    isOpen,
+    close,
+    DAMRequests,
+    setDAMRequests,
+}: props) => {
     return (
         <dialog className="modal" open={isOpen}>
             <div className="modal-box max-w-3xl">
-                {/* {details && (
+                <button onClick={close}>
+                    <MdClose
+                        size={32}
+                        className="absolute right-6 top-6 hover:text-primary z-10"
+                    />
+                </button>
+                <DAMForm
+                    DAMRequests={DAMRequests}
+                    setDAMRequests={setDAMRequests}
+                    existingData={details}
+                />
+            </div>
+        </dialog>
+    );
+};
+
+export default DAMModal;
+{
+    /* //! {details && (
                     <ul className="flex flex-col">
                         {Object.keys(details).map((detail, idx) => (
                             <li key={idx}>
@@ -22,17 +46,5 @@ const DAMModal = ({ details, isOpen, close }: props) => {
                             </li>
                         ))}
                     </ul>
-                )} */}
-                <button onClick={close}>
-                    <MdClose
-                        size={32}
-                        className="absolute right-6 top-6 hover:text-primary z-10"
-                    />
-                </button>
-                <DAMForm />
-            </div>
-        </dialog>
-    );
-};
-
-export default DAMModal;
+                )} */
+}

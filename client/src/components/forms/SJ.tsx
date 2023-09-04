@@ -17,10 +17,10 @@ type FormValues = {
 
 interface props {
     fullCaseId: string;
-    existingData: SJRequest | undefined;
+    formId: string | undefined;
     nextPage: () => void;
 }
-const SJForm = ({ existingData, fullCaseId, nextPage }: props) => {
+const SJForm = ({ fullCaseId, formId, nextPage }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -45,26 +45,43 @@ const SJForm = ({ existingData, fullCaseId, nextPage }: props) => {
         }
     };
 
-    // set default field values to existing data if it exists ( if you're not creating )
-    useEffect(() => {
-        if (existingData) {
-            setValue("caseNumber", existingData.caseNumber);
-            setValue("date", existingData.date);
-            setValue("place", existingData.place);
-            setValue("commission", existingData.commission);
-            setValue("service", existingData.service);
-            setValue("subject", existingData.subject);
-            setValue("huissier", existingData.huissier);
-            setValue("from", existingData.from);
-        } else {
-            reset();
+    const editPost = async (data: FormValues) => {
+        try {
+            const url = `/forms/SJ/request/${formId}`;
+            const res = await axiosIns.put(url, data, {
+                headers: { authorization: `Bearer ${token}` },
+            });
+            toast.success("All good bro");
+            nextPage();
+        } catch (error) {
+            isAxiosError(error) && toast.error(error.response?.data?.message);
         }
-    }, [existingData]);
+    };
+
+    // get data if a card is opened and has the form data stored in db
+    // otherwise reset the form values
+    useEffect(() => {
+        const getData = async () => {
+            const res = await axiosIns.get(`/forms/SJ/request/${formId}`, {
+                headers: { authorization: `Bearer ${token}` },
+            });
+
+            setValue("caseNumber", res.data.caseNumber);
+            setValue("date", res.data.date);
+            setValue("place", res.data.place);
+            setValue("commission", res.data.commission);
+            setValue("service", res.data.service);
+            setValue("subject", res.data.subject);
+            setValue("huissier", res.data.huissier);
+            setValue("from", res.data.from);
+        };
+        formId ? getData() : reset();
+    }, [fullCaseId]);
 
     return (
         <form
             className="card flex-shrink-0 bg-base-100"
-            onSubmit={handleSubmit(createPost)}
+            onSubmit={handleSubmit(formId ? editPost : createPost)}
             noValidate
         >
             <div className="card-body">

@@ -12,6 +12,7 @@ async function createRequest(req, res) {
         res.status(201).json({
             message:
                 "Successfully created a new case with the submitted request.",
+            newRequest,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

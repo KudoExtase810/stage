@@ -7,28 +7,28 @@ type CtxProps = {
 };
 
 type UserContext = {
-    data: User | null;
-    setData: React.Dispatch<React.SetStateAction<User | null>>;
+    userData: User | null;
+    setUserData: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 const UserContext = createContext({} as UserContext);
 
-export const useUserData = () => useContext(UserContext);
+export const useAuth = () => useContext(UserContext);
 
 const UserContextProvider = ({ children }: CtxProps) => {
-    const [data, setData] = useState<User | null>(null);
+    const [userData, setUserData] = useState<User | null>(null);
     const { userId } = useToken();
 
     useEffect(() => {
         const getUserData = async () => {
             const response = await axiosIns.get(`/users/${userId}`);
-            setData(response.data as User);
+            setUserData(response.data as User);
         };
-        if (userId && !data) getUserData();
+        if (userId && !userData) getUserData();
     }, []);
 
     return (
-        <UserContext.Provider value={{ data, setData }}>
+        <UserContext.Provider value={{ userData, setUserData }}>
             {children}
         </UserContext.Provider>
     );

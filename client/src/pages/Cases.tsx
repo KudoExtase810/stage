@@ -1,43 +1,44 @@
-import { useEffect, useState } from "react";
-import _Cases from "../components/cases/Cases";
-import DAMModal from "../components/modals/DAMModal";
+import { useState } from "react";
+import AllCases from "../components/cases/AllCases";
 import FullCaseModal from "../components/modals/FullCaseModal";
-
-export type Details = PVForm | BillForm | DAMRequest;
+import ArchiveCase from "../components/modals/ArchiveCase";
 
 const Cases = () => {
-    // Full case
+    // full case containing the dam request, sj request, pv, and bill
+    const [fullCases, setFullCases] = useState<FullCase[]>([]);
+
+    // warning modal
+    const [showArchiveCaseModal, setShowArchiveCaseModal] = useState(false);
+
     const [showFullCaseModal, setShowFullCaseModal] = useState(false);
     const [fullCaseDetails, setFullCaseDetails] = useState<FullCase | null>(
         null
     );
 
-    // DAM Request
-    const [showDAMModal, setShowDAMModal] = useState(false);
-    const [DAMReqDetails, setDAMReqDetails] = useState<DAMRequest | null>(null);
-
-    // clear details whenever their modal closes
-    useEffect(() => {
-        if (!showDAMModal) setDAMReqDetails(null);
-        if (!showFullCaseModal) setFullCaseDetails(null);
-    }, [showDAMModal, showFullCaseModal]);
-
     return (
         <>
-            <DAMModal
-                isOpen={showDAMModal}
-                close={() => setShowDAMModal(false)}
-                details={DAMReqDetails}
-            />
             <FullCaseModal
                 isOpen={showFullCaseModal}
-                close={() => setShowFullCaseModal(false)}
+                close={() => {
+                    setShowFullCaseModal(false);
+                    setFullCaseDetails(null);
+                }}
                 fullCase={fullCaseDetails}
             />
-            <_Cases
-                openDAMModal={() => setShowDAMModal(true)}
+
+            <ArchiveCase
+                fullCase={fullCaseDetails}
+                fullCases={fullCases}
+                setFullCases={setFullCases}
+                isOpen={showArchiveCaseModal}
+                close={() => setShowArchiveCaseModal(false)}
+            />
+
+            <AllCases
+                fullCases={fullCases}
+                setFullCases={setFullCases}
                 openFullCaseModal={() => setShowFullCaseModal(true)}
-                setDAMReqDetails={setDAMReqDetails}
+                openArchiveCaseModal={() => setShowArchiveCaseModal(true)}
                 setFullCaseDetails={setFullCaseDetails}
             />
         </>

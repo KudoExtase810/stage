@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import axiosIns from "../common/axios";
 import { useNavigate, Navigate } from "react-router-dom";
-import { useUserData } from "../context/UserContext";
+import { useAuth } from "../context/UserContext";
 import { isAxiosError } from "axios";
 import useToken from "../hooks/useToken";
 
@@ -16,7 +16,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const { setData } = useUserData();
+    const { setUserData } = useAuth();
     const { token } = useToken();
 
     const handleLogin = async (data: FormValues) => {
@@ -24,7 +24,7 @@ const Login = () => {
             const res = await axiosIns.post("/auth/login", data, {
                 withCredentials: true,
             });
-            setData(res.data.user);
+            setUserData(res.data.user);
             // the cookie containing the auth token is set from the server instead of here-
             // in order to store the expiration time of both the cookie and the jwt in a variable inside the same file
             toast.success("Connexion réussie.");

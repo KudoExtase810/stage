@@ -16,10 +16,11 @@ type FormValues = {
 
 interface props {
     fullCaseId: string;
-    existingData: BillForm | undefined;
+    formId: string | undefined;
+
     close: () => void;
 }
-const SJBillForm = ({ fullCaseId, existingData, close }: props) => {
+const SJBillForm = ({ fullCaseId, formId, close }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -44,23 +45,40 @@ const SJBillForm = ({ fullCaseId, existingData, close }: props) => {
         }
     };
 
-    // set default field values to existing data if it exists ( if you're not creating )
-    useEffect(() => {
-        if (existingData) {
-            setValue("caseNumber", existingData.caseNumber);
-            setValue("date", existingData.date);
-            setValue("place", existingData.place);
-            setValue("payment", existingData.payment);
-            setValue("huissier", existingData.huissier);
-        } else {
-            reset();
+    const editPost = async (data: FormValues) => {
+        try {
+            const url = `/forms/SJ/bill/${formId}`;
+            const res = await axiosIns.post(url, data, {
+                headers: { authorization: `Bearer ${token}` },
+            });
+            toast.success("All good bro");
+            close();
+        } catch (error) {
+            isAxiosError(error) && toast.error(error.response?.data?.message);
         }
-    }, [existingData]);
+    };
+
+    // get data if a card is opened and has the form data stored in db
+    // otherwise reset the form values
+    useEffect(() => {
+        const getData = async () => {
+            const res = await axiosIns.get(`/forms/SJ/bill/${formId}`, {
+                headers: { authorization: `Bearer ${token}` },
+            });
+
+            setValue("caseNumber", res.data.caseNumber);
+            setValue("date", res.data.date);
+            setValue("place", res.data.place);
+            setValue("payment", res.data.payment);
+            setValue("huissier", res.data.huissier);
+        };
+        formId ? getData() : reset();
+    }, [fullCaseId]);
 
     return (
         <form
             className="card flex-shrink-0 bg-base-100"
-            onSubmit={handleSubmit(createPost)}
+            onSubmit={handleSubmit(formId ? editPost : createPost)}
             noValidate
         >
             <div className="card-body">

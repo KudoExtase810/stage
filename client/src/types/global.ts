@@ -66,14 +66,14 @@ type SJCase = {
 type FullCase = {
     _id: string;
     DAMRequest: DAMRequest;
-    SJRequest: SJRequest;
-    PV: PVForm;
-    bill: BillForm;
+    SJRequest: string; // the id of the form not the data (not populated)
+    PV: string; // the id of the form not the data (not populated)
+    bill: string; // the id of the form not the data (not populated)
     requestedBy: User;
-    handledBy: User;
+    handledBy?: User;
     progress: 0 | 1 | 2 | 3;
     createdAt: string;
     updatedAt: string;
-    completedAt: string;
+    completedAt?: string;
     isArchived: boolean;
 };

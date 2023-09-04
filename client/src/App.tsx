@@ -10,9 +10,11 @@ import Administration from "./pages/Administration";
 import RequireAuth from "./components/RequireAuth";
 import Cases from "./pages/Cases";
 import NotFound from "./pages/NotFound";
+import Requests from "./pages/Requests";
 
 function App() {
     const { pathname } = useLocation();
+
     useEffect(() => {
         themeChange(false);
         return () => {
@@ -25,6 +27,7 @@ function App() {
             <main>
                 <Toaster />
 
+                {/* Navbar */}
                 {pathname !== "/login" ? <Navbar /> : null}
 
                 <Routes>
@@ -40,10 +43,12 @@ function App() {
                         />
                     </Route>
 
-                    <Route
-                        element={<RequireAuth allowedRoles={["SJ", "DAM"]} />}
-                    >
+                    <Route element={<RequireAuth allowedRoles={["SJ"]} />}>
                         <Route path="/cases" element={<Cases />} />
+                    </Route>
+
+                    <Route element={<RequireAuth allowedRoles={["DAM"]} />}>
+                        <Route path="/requests" element={<Requests />} />
                     </Route>
 
                     <Route
@@ -56,11 +61,12 @@ function App() {
                         <Route path="/" element={<Home />} />
                     </Route>
 
-                    {/* Non-existant route */}
+                    {/* Not found */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
 
+            {/* Footer */}
             {pathname === "/" ? <Footer /> : null}
         </>
     );

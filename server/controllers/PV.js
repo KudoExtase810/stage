@@ -45,6 +45,7 @@ async function getPVById(req, res) {
     }
 }
 
+//!  to be removed in all forms
 async function getAllPVs(_req, res) {
     try {
         const pv = await PV.find({});
@@ -80,6 +81,7 @@ async function editPV(req, res) {
 }
 
 // DELETE
+// ! to be removed in all forms
 async function deletePV(req, res) {
     try {
         const { id } = req.params;

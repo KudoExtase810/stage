@@ -22,14 +22,7 @@ type FormValues = {
     role: User["role"];
 };
 
-const UserModal = ({
-    isOpen,
-    close,
-    users,
-    setUsers,
-    actionUser,
-    setActionUser,
-}: props) => {
+const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
 
@@ -61,7 +54,6 @@ const UserModal = ({
             updatedUser!.role = res.data.user.role;
             setUsers([...users]);
             toast.success("Compte mis à jour avec succès!");
-
             close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);

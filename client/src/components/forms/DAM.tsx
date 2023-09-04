@@ -3,39 +3,82 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
-import { useUserData } from "../../context/UserContext";
+import { useAuth } from "../../context/UserContext";
+import { useEffect } from "react";
 type FormValues = {
     caseNumber: string;
     date: string;
     place: string;
     commission: string;
     service: string;
-    description: string;
+    description?: string;
 };
-
-const DAMForm = () => {
-    const { register, handleSubmit, formState, reset } = useForm<FormValues>();
+interface props {
+    DAMRequests: DAMRequest[];
+    setDAMRequests: React.Dispatch<React.SetStateAction<DAMRequest[]>>;
+    existingData: DAMRequest;
+}
+const DAMForm = ({ DAMRequests, setDAMRequests, existingData }: props) => {
+    const { register, handleSubmit, formState, setValue, reset } =
+        useForm<FormValues>();
 
     const { token } = useToken();
-    const { data } = useUserData();
+    const { userData } = useAuth();
 
-    const createDAMRequest = async (formData: FormValues) => {
+    const createDAMRequest = async (data: FormValues) => {
         try {
-            const reqData = { ...formData, requestedBy: data?._id };
+            const reqData = { ...data, requestedBy: userData?._id };
             const res = await axiosIns.post("/forms/DAM", reqData, {
                 headers: { authorization: `Bearer ${token}` },
             });
             reset();
+            setDAMRequests([...DAMRequests, res.data.newRequest]);
             toast.success(res.data.message);
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
     };
 
+    const updateDAMRequest = async (data: FormValues) => {
+        try {
+            const res = await axiosIns.put(
+                `/forms/DAM/${existingData._id}`,
+                data,
+                {
+                    headers: { authorization: `Bearer ${token}` },
+                }
+            );
+            reset();
+            const updatedDAMRequest = DAMRequests.find(
+                (req) => req._id === existingData._id
+            )!;
+            Object.assign(updatedDAMRequest, res.data.updated);
+            setDAMRequests([...DAMRequests]);
+        } catch (error) {
+            isAxiosError(error) && toast.error(error.response?.data?.message);
+        }
+    };
+
+    // set default field values to existing data if it exists ( if you're not creating )
+    useEffect(() => {
+        if (existingData) {
+            setValue("caseNumber", existingData.caseNumber);
+            setValue("date", existingData.date);
+            setValue("place", existingData.place);
+            setValue("commission", existingData.commission);
+            setValue("service", existingData.service);
+            setValue("description", existingData.description);
+        } else {
+            reset();
+        }
+    }, [existingData]);
+
     return (
         <form
             className="card flex-shrink-0 bg-base-100"
-            onSubmit={handleSubmit(createDAMRequest)}
+            onSubmit={handleSubmit(
+                existingData ? updateDAMRequest : createDAMRequest
+            )}
             noValidate
         >
             <div className="card-body">

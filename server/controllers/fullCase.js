@@ -22,14 +22,10 @@ async function getCaseById(req, res) {
 
 async function getAllCases(_req, res) {
     try {
-        const allCases = await FullCase.find({}).populate([
-            "DAMRequest",
-            "SJRequest",
-            "PV",
-            "bill",
-            "requestedBy",
-            "handledBy",
-        ]);
+        const allCases = await FullCase.find({})
+            .populate({ path: "requestedBy", select: "username -_id" })
+            .populate({ path: "handledBy", select: "username -_id" });
+
         res.status(200).json(allCases);
     } catch (error) {
         res.status(500).json({ message: error.message });
