@@ -39,7 +39,9 @@ const CaseCard = ({
                     />
 
                     <div
-                        className="tooltip tooltip-accent"
+                        className={`tooltip ${
+                            isArchived ? "tooltip-info" : "tooltip-warning"
+                        }`}
                         data-tip={isArchived ? "Archivée" : "Archiver"}
                     >
                         <button
@@ -73,7 +75,7 @@ const CaseCard = ({
                 </div>
                 <div className="card-actions items-center justify-between">
                     <div
-                        className="tooltip tooltip-right tooltip-accent"
+                        className="tooltip tooltip-right tooltip-info"
                         data-tip="Voir la demande"
                     >
                         <button

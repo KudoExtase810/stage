@@ -22,7 +22,6 @@ const ArchiveCase = ({
     const { token } = useToken();
 
     const archiveCase = async () => {
-        console.log(fullCase);
         if (fullCase!.isArchived)
             return toast.error("Cette affaire est deja archivée.");
 

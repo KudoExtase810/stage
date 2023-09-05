@@ -6,6 +6,7 @@ interface props {
     allowedRoles: User["role"][];
 }
 
+// Auth check
 const RequireAuth = ({ allowedRoles }: props) => {
     const { role, token } = useToken();
     const location = useLocation();

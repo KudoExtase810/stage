@@ -15,6 +15,7 @@ import Requests from "./pages/Requests";
 function App() {
     const { pathname } = useLocation();
 
+    // theme color swap
     useEffect(() => {
         themeChange(false);
         return () => {

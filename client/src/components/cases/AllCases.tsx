@@ -73,7 +73,7 @@ const AllCases = ({
     const sortOptions = [
         { text: "Établie par", value: "requestedBy" },
         { text: "Traitée par", value: "handledBy" },
-        { text: "Progress", value: "progress" },
+        { text: "Progrès", value: "progress" },
         { text: "Créée le", value: "createdAt" },
         { text: "Complétée le", value: "completedAt" },
     ] as const;
