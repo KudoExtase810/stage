@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import sonelgaz from "../../assets/Sonelgaz.png";
+import sonelgaz from "../../assets/images/Sonelgaz.png";
 import { useAuth } from "../../context/UserContext";
 
 const Hero = () => {

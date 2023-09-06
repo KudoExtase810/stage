@@ -18,7 +18,6 @@ const FullCaseSchema = new mongoose.Schema(
         },
         handledBy: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
         isArchived: { type: Boolean, default: false },
-        completedAt: Date,
     },
     { timestamps: true }
 );

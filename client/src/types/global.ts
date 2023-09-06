@@ -54,15 +54,7 @@ type BillForm = {
     payment: string;
 };
 
-// SJ Combination
-type SJCase = {
-    _id: string;
-    demande: SJRequest;
-    pv: PVForm;
-    bill: BillForm;
-};
-
-// Full thing SJ+DAM
+// Full case SJ+DAM
 type FullCase = {
     _id: string;
     DAMRequest: DAMRequest;
@@ -74,6 +66,5 @@ type FullCase = {
     progress: 0 | 1 | 2 | 3;
     createdAt: string;
     updatedAt: string;
-    completedAt?: string;
     isArchived: boolean;
 };

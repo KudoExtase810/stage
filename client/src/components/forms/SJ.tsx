@@ -1,7 +1,7 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
 type FormValues = {
@@ -26,6 +26,7 @@ const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
         useForm<FormValues>();
 
     const { token } = useToken();
+    const [isLoading, setIsLoading] = useState(true);
 
     // create SJ request
     const createPost = async (data: FormValues) => {

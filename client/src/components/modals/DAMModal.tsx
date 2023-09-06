@@ -34,6 +34,7 @@ const DAMModal = ({
                     DAMRequests={DAMRequests}
                     setDAMRequests={setDAMRequests}
                     existingData={details}
+                    close={close}
                 />
             </div>
         </dialog>

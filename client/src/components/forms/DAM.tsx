@@ -18,12 +18,14 @@ interface props {
     setDAMRequests: React.Dispatch<React.SetStateAction<DAMRequest[]>>;
     existingData: DAMRequest;
     readOnlyMode?: boolean;
+    close: () => void;
 }
 const DAMForm = ({
     DAMRequests,
     setDAMRequests,
     existingData,
     readOnlyMode,
+    close,
 }: props) => {
     const { register, handleSubmit, formState, setValue, reset } =
         useForm<FormValues>();
@@ -37,9 +39,9 @@ const DAMForm = ({
             const res = await axiosIns.post("/forms/DAM", reqData, {
                 headers: { authorization: `Bearer ${token}` },
             });
-            reset();
             setDAMRequests([...DAMRequests, res.data.newRequest]);
             toast.success(res.data.message);
+            close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }
@@ -54,12 +56,14 @@ const DAMForm = ({
                     headers: { authorization: `Bearer ${token}` },
                 }
             );
-            reset();
+
             const updatedDAMRequest = DAMRequests.find(
                 (req) => req._id === existingData._id
             )!;
             Object.assign(updatedDAMRequest, res.data.updated);
+            toast.success("Demande modifiée avec succès!");
             setDAMRequests([...DAMRequests]);
+            close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
         }

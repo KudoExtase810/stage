@@ -44,15 +44,19 @@ const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
 
     const updateUser = async (data: FormValues) => {
         try {
-            const res = await axiosIns.put(`/users/${actionUser?._id}`, data);
+            const res = await axiosIns.put(`/users/${actionUser?._id}`, data, {
+                headers: { authorization: `Bearer ${token}` },
+            });
 
             // Find the user we're trying to update and update its data and state
             const updatedUser = users.find(
                 (user) => user._id === actionUser?._id
-            );
-            updatedUser!.email = res.data.user.email;
-            updatedUser!.username = res.data.user.username;
-            updatedUser!.role = res.data.user.role;
+            )!;
+
+            updatedUser.email = res.data.user.email;
+            updatedUser.username = res.data.user.username;
+            updatedUser.role = res.data.user.role;
+
             setUsers([...users]);
             toast.success("Compte mis à jour avec succès!");
             close();

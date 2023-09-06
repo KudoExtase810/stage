@@ -4,6 +4,8 @@ import useToken from "../../hooks/useToken";
 import DAMCard from "../requests/DAMCard";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import NoResults from "../NoResults";
+import Loader from "../Loader";
 
 interface props {
     DAMRequests: DAMRequest[];
@@ -19,6 +21,8 @@ const AllRequests = ({
     setDAMReqDetails,
 }: props) => {
     const { token } = useToken();
+    const [isLoading, setIsLoading] = useState(true);
+
     // search filter query
     const [query, setQuery] = useState("");
 
@@ -28,6 +32,8 @@ const AllRequests = ({
                 headers: { authorization: `Bearer ${token}` },
             });
             setDAMRequests(res.data);
+
+            setIsLoading(false);
         };
 
         getDAMRequests();
@@ -56,6 +62,10 @@ const AllRequests = ({
         (opt) => opt.value === searchMethod
     );
 
+    useEffect(() => {
+        setQuery("");
+    }, [searchMethod]);
+
     const [parent] = useAutoAnimate();
     return (
         <>
@@ -64,10 +74,10 @@ const AllRequests = ({
                     <div className="relative">
                         <input
                             disabled={!currentFilter}
-                            className="input input-bordered join-item pr-6"
+                            className="input input-bordered join-item px-4 w-64"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            type="text"
+                            type={searchMethod === "date" ? "date" : "text"}
                             placeholder={
                                 currentFilter?.text || "Choisissez un filtre"
                             }
@@ -99,18 +109,27 @@ const AllRequests = ({
                     <span>Nouvelle demande</span>
                 </button>
             </div>
-            <div>
-                <ul className="flex flex-wrap gap-7 p-4" ref={parent}>
-                    {filteredItems.map((item) => (
-                        <DAMCard
-                            key={item._id}
-                            request={item}
-                            openDAMModal={openDAMModal}
-                            setDAMReqDetails={setDAMReqDetails}
-                        />
-                    ))}
-                </ul>
-            </div>
+
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <div ref={parent}>
+                    {filteredItems.length ? (
+                        <ul className="flex flex-wrap gap-7 p-4" ref={parent}>
+                            {filteredItems.map((item) => (
+                                <DAMCard
+                                    key={item._id}
+                                    request={item}
+                                    openDAMModal={openDAMModal}
+                                    setDAMReqDetails={setDAMReqDetails}
+                                />
+                            ))}
+                        </ul>
+                    ) : (
+                        <NoResults />
+                    )}
+                </div>
+            )}
         </>
     );
 };

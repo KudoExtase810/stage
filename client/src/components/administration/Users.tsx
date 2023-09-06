@@ -5,6 +5,9 @@ import { IoMdPersonAdd } from "react-icons/io";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdEmail } from "react-icons/md";
 import useToken from "../../hooks/useToken";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import NoResults from "../NoResults";
+import Loader from "../Loader";
 
 interface props {
     openUserModal: () => void;
@@ -22,6 +25,7 @@ const Users = ({
     setActionUser,
 }: props) => {
     const { token } = useToken();
+    const [isLoading, setIsLoading] = useState(true);
 
     // Fetch users
     useEffect(() => {
@@ -30,6 +34,8 @@ const Users = ({
                 headers: { authorization: `Bearer ${token}` },
             });
             setUsers(res.data);
+
+            setIsLoading(false);
         };
         getAllUsers();
     }, []);
@@ -79,6 +85,8 @@ const Users = ({
         });
     }, [query, users, searchMethod]);
 
+    const [parent] = useAutoAnimate();
+
     return (
         <>
             {/* controls */}
@@ -105,7 +113,7 @@ const Users = ({
                     </div>
                     <select
                         className="select select-bordered join-item"
-                        defaultValue="username"
+                        defaultValue=""
                         onChange={(e) =>
                             handleSort(
                                 e.target.value as
@@ -115,7 +123,9 @@ const Users = ({
                             )
                         }
                     >
-                        <option disabled>Trier par</option>
+                        <option disabled value="">
+                            Trier par
+                        </option>
                         <option value="username">Nom (A-Z)</option>
                         <option value="role">Rôle (A-Z)</option>
                         <option value="createdAt">Créé le (⇩)</option>
@@ -135,31 +145,39 @@ const Users = ({
             </div>
 
             {/* table */}
-            <div className="overflow-x-auto">
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nom / Rôle</th>
-                            <th>Adresse e-mail</th>
-                            <th>Créé le</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers?.map((user, idx) => (
-                            <SingleUser
-                                user={user}
-                                index={idx}
-                                key={user._id}
-                                openActionModal={openUserModal}
-                                openDeleteModal={openDeleteModal}
-                                setActionUser={setActionUser}
-                            />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <div className="max-md:overflow-x-auto" ref={parent}>
+                    {filteredUsers.length ? (
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom / Rôle</th>
+                                    <th>Adresse e-mail</th>
+                                    <th>Créé le</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredUsers?.map((user, idx) => (
+                                    <SingleUser
+                                        user={user}
+                                        index={idx}
+                                        key={user._id}
+                                        openActionModal={openUserModal}
+                                        openDeleteModal={openDeleteModal}
+                                        setActionUser={setActionUser}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <NoResults />
+                    )}
+                </div>
+            )}
         </>
     );
 };

@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
 import CaseCard from "./CaseCard";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { sort } from "fast-sort";
+import Loader from "../Loader";
+import { FaFilePdf } from "react-icons/fa";
 
 interface props {
     fullCases: FullCase[];
@@ -24,6 +26,7 @@ const AllCases = ({
     openDAMModal,
 }: props) => {
     const { token } = useToken();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getFullCases = async () => {
@@ -31,6 +34,7 @@ const AllCases = ({
                 headers: { authorization: `Bearer ${token}` },
             });
             setFullCases(res.data);
+            setIsLoading(false);
         };
 
         getFullCases();
@@ -58,9 +62,6 @@ const AllCases = ({
             case "createdAt":
                 sorted = sort(fullCases)[sortOrder]((c) => c.createdAt);
                 break;
-            case "completedAt":
-                sorted = sort(fullCases)[sortOrder]((c) => c.completedAt);
-                break;
 
             default:
                 sorted = fullCases;
@@ -75,7 +76,6 @@ const AllCases = ({
         { text: "Traitée par", value: "handledBy" },
         { text: "Progrès", value: "progress" },
         { text: "Créée le", value: "createdAt" },
-        { text: "Complétée le", value: "completedAt" },
     ] as const;
 
     const [parent] = useAutoAnimate();
@@ -89,7 +89,9 @@ const AllCases = ({
                         value={sortMethod}
                         onChange={(e) => setSortMethod(e.target.value)}
                     >
-                        <option value="">Trier par</option>
+                        <option value="" disabled>
+                            Trier par
+                        </option>
                         {sortOptions.map((opt, idx) => (
                             <option value={opt.value} key={idx}>
                                 {opt.text}
@@ -111,24 +113,33 @@ const AllCases = ({
                         <HiOutlineSearch size={22} />
                     </button>
                 </div>
-                <button className="btn btn-primary btn-md px-5">
-                    <span>IDK WHAT TO PUT HERE</span>
-                </button>
+                <a
+                    href="src/assets/docs/sonelgaz-med.pdf"
+                    target="_blank"
+                    className="btn btn-primary btn-md px-5 gap-3"
+                >
+                    <span>Afficher le PDF</span>
+                    <FaFilePdf size={22} />
+                </a>
             </div>
-            <div>
-                <ul className="flex flex-wrap gap-7 p-4" ref={parent}>
-                    {fullCases.map((item) => (
-                        <CaseCard
-                            key={item._id}
-                            fullCase={item}
-                            openFullCaseModal={openFullCaseModal}
-                            openArchiveCaseModal={openArchiveCaseModal}
-                            setFullCaseDetails={setFullCaseDetails}
-                            openDAMModal={openDAMModal}
-                        />
-                    ))}
-                </ul>
-            </div>
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <div>
+                    <ul className="flex flex-wrap gap-7 p-4" ref={parent}>
+                        {fullCases.map((item) => (
+                            <CaseCard
+                                key={item._id}
+                                fullCase={item}
+                                openFullCaseModal={openFullCaseModal}
+                                openArchiveCaseModal={openArchiveCaseModal}
+                                setFullCaseDetails={setFullCaseDetails}
+                                openDAMModal={openDAMModal}
+                            />
+                        ))}
+                    </ul>
+                </div>
+            )}
         </>
     );
 };

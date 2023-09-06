@@ -7,7 +7,7 @@ interface props {
 const DAMCard = ({ request, openDAMModal, setDAMReqDetails }: props) => {
     const { caseNumber, place, service, updatedAt } = request;
     return (
-        <li className="card w-96 bg-zinc-300 text-zinc-900">
+        <li className="card w-96 bg-zinc-300 text-zinc-900 h-fit">
             <div className="card-body">
                 <h2 className="card-title">#{caseNumber}</h2>
                 <ul>
