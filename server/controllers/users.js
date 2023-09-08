@@ -20,7 +20,9 @@ async function getUser(req, res) {
     try {
         const { userId } = req.params;
         const user = await User.findById(userId);
+
         if (!user) return res.status(404).json({ message: "User not found!" });
+
         user.password = undefined;
         res.status(200).json(user);
     } catch (error) {
@@ -59,12 +61,18 @@ async function editUser(req, res) {
 
 async function setUserRating(req, res) {
     try {
-        const { id } = req.params;
-        const user = User.findById(id);
+        const { userId } = req.params;
+        const { rating } = req.body;
+        const user = await User.findById(userId);
 
         if (!user) return res.status(404).json({ message: "User not found." });
 
-        user.rating = req.body.rating;
+        if (rating < 1 || rating > 5)
+            return res
+                .status(400)
+                .json({ message: "Rating must be a number between 1 and 5" });
+
+        user.rating = rating;
         await user.save();
 
         res.status(200).json({ message: "User rating set with success." });

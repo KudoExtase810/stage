@@ -1,9 +1,10 @@
 import { isAxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axiosIns from "../../common/axios";
 import useToken from "../../hooks/useToken";
+import { BiSolidLock } from "react-icons/bi";
 type FormValues = {
     caseNumber: string;
     date: string;
@@ -26,7 +27,8 @@ const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
         useForm<FormValues>();
 
     const { token } = useToken();
-    const [isLoading, setIsLoading] = useState(true);
+
+    const isArchived = fullCases.find((c) => c._id === fullCaseId)?.isArchived;
 
     // create SJ request
     const createPost = async (data: FormValues) => {
@@ -40,7 +42,7 @@ const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
                 },
                 { headers: { authorization: `Bearer ${token}` } }
             );
-            toast.success("All good bro");
+            toast.success("Le formulaire a été soumis avec succès.");
             const updatedCase = fullCases.find((c) => c._id === fullCaseId)!;
             updatedCase.progress = res.data.updatedFullCase.progress;
             updatedCase.SJRequest = res.data.updatedFullCase.SJRequest;
@@ -52,12 +54,17 @@ const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
     };
 
     const editPost = async (data: FormValues) => {
+        if (isArchived)
+            return toast.error(
+                "Cette affaire est archivée et ne peut plus être modifiée"
+            );
+
         try {
             const url = `/forms/SJ/request/${formId}`;
-            const res = await axiosIns.put(url, data, {
+            await axiosIns.put(url, data, {
                 headers: { authorization: `Bearer ${token}` },
             });
-            toast.success("All good bro");
+            toast.success("Le formulaire a été modifié avec succès.");
             nextPage();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
@@ -236,17 +243,27 @@ const SJForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
                     </div>
                 </div>
                 <div className="mt-6">
-                    <button
-                        className="btn btn-primary w-full"
-                        type="submit"
-                        disabled={formState.isSubmitting}
-                    >
-                        {formState.isSubmitting ? (
-                            <span className="loading loading-spinner loading-lg text-gray-300"></span>
-                        ) : (
-                            "Soumettre"
-                        )}
-                    </button>
+                    {isArchived ? (
+                        <button
+                            className="btn btn-primary w-full !text-zinc-300"
+                            type="submit"
+                            disabled
+                        >
+                            <BiSolidLock size={22} />
+                        </button>
+                    ) : (
+                        <button
+                            className="btn btn-primary w-full"
+                            type="submit"
+                            disabled={formState.isSubmitting}
+                        >
+                            {formState.isSubmitting ? (
+                                <span className="loading loading-spinner loading-lg text-gray-300"></span>
+                            ) : (
+                                "Soumettre"
+                            )}
+                        </button>
+                    )}
                 </div>
             </div>
         </form>

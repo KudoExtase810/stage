@@ -40,7 +40,9 @@ const DAMForm = ({
                 headers: { authorization: `Bearer ${token}` },
             });
             setDAMRequests([...DAMRequests, res.data.newRequest]);
-            toast.success(res.data.message);
+
+            toast.success("Le demande a été soumise avec succès.");
+
             close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
@@ -61,7 +63,9 @@ const DAMForm = ({
                 (req) => req._id === existingData._id
             )!;
             Object.assign(updatedDAMRequest, res.data.updated);
+
             toast.success("Demande modifiée avec succès!");
+
             setDAMRequests([...DAMRequests]);
             close();
         } catch (error) {

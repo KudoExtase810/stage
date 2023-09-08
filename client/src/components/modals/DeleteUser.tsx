@@ -32,7 +32,6 @@ const DeleteUser = ({ users, setUsers, actionUser, isOpen, close }: props) => {
             close();
         } catch (error) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
-            console.error(error);
         }
     };
 

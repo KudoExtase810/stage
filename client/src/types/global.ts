@@ -3,6 +3,7 @@ type User = {
     username: string;
     email: string;
     role: "DAM" | "SJ" | "Admin";
+    rating: 0 | 1 | 2 | 3 | 4 | 5;
     createdAt: string;
     updatedAt: string;
 };
@@ -62,7 +63,6 @@ type FullCase = {
     PV: string; // the id of the form not the data (not populated)
     bill: string; // the id of the form not the data (not populated)
     requestedBy: User;
-    handledBy?: User;
     progress: 0 | 1 | 2 | 3;
     createdAt: string;
     updatedAt: string;

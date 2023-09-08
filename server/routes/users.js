@@ -22,7 +22,7 @@ router.get("/:userId", getUser);
 // UPDATE
 router.put("/:userId", isAdmin, editUser);
 // TODO: create isAuth and add it below
-router.patch("/userId", setUserRating);
+router.patch("/rating/:userId", setUserRating);
 
 // DELETE
 router.delete("/:userId", isAdmin, deleteUser);

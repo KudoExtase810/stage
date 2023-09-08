@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
 import Footer from "./components/Footer";
 import Administration from "./pages/Administration";
@@ -11,8 +11,10 @@ import RequireAuth from "./components/RequireAuth";
 import Cases from "./pages/Cases";
 import NotFound from "./pages/NotFound";
 import Requests from "./pages/Requests";
+import RateUs from "./components/modals/RateUs";
 
 function App() {
+    const [showRatingModal, setShowRatingModal] = useState(false);
     const { pathname } = useLocation();
 
     // theme color swap
@@ -26,10 +28,19 @@ function App() {
     return (
         <>
             <main>
+                {/* Toaster */}
                 <Toaster />
 
+                {/* Rate us modal */}
+                <RateUs
+                    isOpen={showRatingModal}
+                    close={() => setShowRatingModal(false)}
+                />
+
                 {/* Navbar */}
-                {pathname !== "/login" ? <Navbar /> : null}
+                {pathname !== "/login" ? (
+                    <Navbar openRatingModal={() => setShowRatingModal(true)} />
+                ) : null}
 
                 <Routes>
                     {/* No auth required routes */}

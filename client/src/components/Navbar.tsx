@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
 import cookies from "js-cookie";
+import { FiLogOut } from "react-icons/fi";
+import { BsFillStarFill } from "react-icons/bs";
 
-const Navbar = () => {
+interface props {
+    openRatingModal: () => void;
+}
+
+const Navbar = ({ openRatingModal }: props) => {
     const { userData } = useAuth();
 
     const handleLogout = () => {
@@ -26,29 +31,37 @@ const Navbar = () => {
                 </a>
             </div>
             <div className="flex-none">
-                <ul className="menu menu-horizontal px-1">
+                <ul className="px-1 flex gap-2" hidden={!userData}>
                     <li>
-                        <Link to="/">You are {userData?.role}</Link>
+                        <button
+                            className={`btn btn-outline btn-warning ${
+                                userData?.rating || "animate-pulse"
+                            } hover:animate-none flex`}
+                            onClick={openRatingModal}
+                        >
+                            <BsFillStarFill size={14} color="gold" />
+                            <span>Noter l'application</span>
+                            <BsFillStarFill size={14} color="gold" />{" "}
+                            <span hidden={!userData?.rating}>
+                                ({userData?.rating})
+                            </span>
+                        </button>
+                    </li>
+                    <li
+                        className="tooltip tooltip-bottom"
+                        data-tip="Se déconnecter"
+                    >
+                        <button
+                            className="btn btn-outline btn-error mr-1"
+                            onClick={handleLogout}
+                        >
+                            <FiLogOut size={24} />
+                        </button>
                     </li>
                 </ul>
-                {userData ? (
-                    <button
-                        className="btn btn-outline btn-error mr-1"
-                        onClick={handleLogout}
-                    >
-                        Se déconnecter
-                    </button>
-                ) : (
-                    <Link
-                        className="btn btn-outline btn-success mr-1"
-                        to="/login"
-                    >
-                        Se connecter
-                    </Link>
-                )}
 
                 <label className="swap swap-rotate btn btn-ghost btn-circle">
-                    <input type="checkbox" data-toggle-theme="light,dark" />
+                    <input type="checkbox" data-toggle-theme="dark,light" />
                     <svg
                         className="swap-on fill-current w-7 h-7"
                         xmlns="http://www.w3.org/2000/svg"

@@ -1,9 +1,10 @@
 import { MdClose } from "react-icons/md";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axiosIns from "../../common/axios";
 import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
 import Overlay from "../Overlay";
 
@@ -28,6 +29,9 @@ const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
         useForm<FormValues>();
 
     const { token } = useToken();
+
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisiblity = () => setShowPassword(!showPassword);
 
     const createUser = async (data: FormValues) => {
         try {
@@ -152,7 +156,7 @@ const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
                                 {formState.errors.email?.message}
                             </span>
                         </div>
-                        <div className="form-control">
+                        <div className="form-control relative">
                             <label className="label" htmlFor="password">
                                 <span className="label-text">Mot de passe</span>
                             </label>
@@ -175,13 +179,24 @@ const UserModal = ({ isOpen, close, users, setUsers, actionUser }: props) => {
                                             "Password cannot exceed 32 characters.",
                                     },
                                 })}
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 placeholder="••••••••••••"
                                 className="input input-bordered hover:border-primary"
                             />
                             <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
                                 {formState.errors.password?.message}
                             </span>
+                            <button
+                                className="absolute right-4 top-12 hover:text-slate-200"
+                                type="button"
+                                onClick={togglePasswordVisiblity}
+                            >
+                                {showPassword ? (
+                                    <AiFillEyeInvisible size={22} />
+                                ) : (
+                                    <AiFillEye size={22} />
+                                )}
+                            </button>
                         </div>
                         <div className="form-control w-full max-w-sm">
                             <label className="label" htmlFor="role">

@@ -2,7 +2,6 @@ import { BiSolidLockOpen, BiSolidLock } from "react-icons/bi";
 import { CgNotes } from "react-icons/cg";
 import { formatDate } from "../../utils/DateFormatter";
 import { toast } from "react-hot-toast";
-import { FcInfo } from "react-icons/fc";
 
 interface props {
     fullCase: FullCase;
@@ -19,7 +18,7 @@ const CaseCard = ({
     setFullCaseDetails,
     openDAMModal,
 }: props) => {
-    const { _id, progress, isArchived, requestedBy, handledBy, createdAt } =
+    const { progress, isArchived, requestedBy, createdAt, updatedAt } =
         fullCase;
 
     return (
@@ -59,11 +58,8 @@ const CaseCard = ({
                 <div>
                     <ul>
                         <li>Établie par: {requestedBy.username}</li>
-                        <li>
-                            Traitée par:{" "}
-                            {handledBy?.username || "Pas encore traitée."}
-                        </li>
                         <li>Créée le: {formatDate(createdAt)}</li>
+                        <li>Modifiée le: {formatDate(updatedAt)}</li>
                     </ul>
                 </div>
                 <div className="card-actions items-center justify-between">

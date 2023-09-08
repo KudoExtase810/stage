@@ -47,20 +47,20 @@ const AllCases = ({
         let sorted = [];
         switch (sortMethod) {
             case "requestedBy":
-                sorted = sort(fullCases)[sortOrder](
-                    (c) => c.requestedBy.username
+                sorted = sort(fullCases)[sortOrder]((c) =>
+                    c.requestedBy.username.toLowerCase()
                 );
                 break;
-            case "handledBy":
-                sorted = sort(fullCases)[sortOrder](
-                    (c) => c.handledBy?.username
-                );
-                break;
+
             case "progress":
                 sorted = sort(fullCases)[sortOrder]((c) => c.progress);
                 break;
             case "createdAt":
                 sorted = sort(fullCases)[sortOrder]((c) => c.createdAt);
+                break;
+
+            case "updatedAt":
+                sorted = sort(fullCases)[sortOrder]((c) => c.updatedAt);
                 break;
 
             default:
@@ -73,9 +73,10 @@ const AllCases = ({
     // Filter options based on listType
     const sortOptions = [
         { text: "Établie par", value: "requestedBy" },
-        { text: "Traitée par", value: "handledBy" },
+
         { text: "Progrès", value: "progress" },
         { text: "Créée le", value: "createdAt" },
+        { text: "Modifée le", value: "updatedAt" },
     ] as const;
 
     const [parent] = useAutoAnimate();
