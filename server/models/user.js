@@ -17,13 +17,18 @@ const UserSchema = new mongoose.Schema(
             unique: true,
             lowercase: true,
         },
-        password: { type: String, minLength: 6, maxLength: 32, required: true },
+        password: {
+            type: String,
+            minLength: 6,
+            maxLength: 300,
+            required: true,
+        },
         role: {
             type: String,
             required: true,
             enum: ["DAM", "SJ", "Admin"],
         },
-        rating: { type: Number, enum: [1, 2, 3, 4, 5] },
+        rating: { type: Number, default: 0, enum: [0, 1, 2, 3, 4, 5] },
     },
     { timestamps: true }
 );

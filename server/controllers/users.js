@@ -1,11 +1,16 @@
 const User = require("../models/user.js");
+const { hashPassword } = require("../lib/passwordHash.js");
 
 // CREATE
 async function createUser(req, res) {
     try {
-        const userData = req.body;
-        const newUser = await User.create(userData);
+        const newUser = await User.create({
+            ...req.body,
+            password: await hashPassword(req.body.password),
+        });
+
         newUser.password = undefined;
+
         res.status(201).json({
             message: "User has been created with success.",
             user: newUser,
@@ -16,14 +21,14 @@ async function createUser(req, res) {
 }
 
 // READ
+
 async function getUser(req, res) {
     try {
         const { userId } = req.params;
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).select("-password");
 
         if (!user) return res.status(404).json({ message: "User not found!" });
 
-        user.password = undefined;
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -32,7 +37,10 @@ async function getUser(req, res) {
 
 async function getAllUsers(_req, res) {
     try {
-        const allUsers = await User.find({}).sort({ username: "ascending" });
+        const allUsers = await User.find({})
+            .sort({ username: "ascending" })
+            .select("-password");
+
         res.status(200).json(allUsers);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -50,7 +58,8 @@ async function editUser(req, res) {
         if (req.body.username) user.username = req.body.username;
         if (req.body.email) user.email = req.body.email;
         if (req.body.role) user.role = req.body.role;
-        if (req.body.password) user.password = req.body.password;
+        if (req.body.password)
+            user.password = await hashPassword(req.body.password);
         await user.save();
 
         res.status(200).json({ message: "User has been updated.", user });

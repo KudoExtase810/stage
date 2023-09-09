@@ -2,6 +2,8 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import { FiTrash } from "react-icons/fi";
 
 import { formatDate } from "../../utils/DateFormatter";
+import useToken from "../../hooks/useToken";
+import toast from "react-hot-toast";
 
 interface props {
     user: User | null;
@@ -17,6 +19,8 @@ const SingleUser = ({
     openDeleteModal,
     setActionUser,
 }: props) => {
+    const { userId } = useToken();
+
     return (
         <tr>
             <th>{index + 1 > 9 ? index + 1 : `0${index + 1}`}</th>
@@ -43,6 +47,10 @@ const SingleUser = ({
                         <button
                             className="text-red-600 hover:text-red-500"
                             onClick={() => {
+                                if (userId === user?._id)
+                                    return toast.error(
+                                        "Vous ne pouvez pas supprimer votre propre compte!"
+                                    );
                                 setActionUser(user);
                                 openDeleteModal();
                             }}

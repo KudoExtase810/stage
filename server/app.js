@@ -38,7 +38,7 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/forms/DAM", DAMRoutes);
 app.use("/forms/SJ", isSJ, SJRoutes); // role middleware applied here
-app.use("/cases", caseRoutes);
+app.use("/cases", isSJ, caseRoutes); // role middleware applied here
 
 //! CONNECTION
 dbConnect().then(() => {

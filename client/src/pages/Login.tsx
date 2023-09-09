@@ -31,7 +31,6 @@ const Login = () => {
             navigate("/", { replace: true });
         } catch (error: any) {
             isAxiosError(error) && toast.error(error.response?.data?.message);
-            console.error(error);
         }
     };
 

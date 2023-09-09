@@ -10,6 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@fisch0920/use-dark-mode": "^2.4.0",
         "@formkit/auto-animate": "^0.7.0",
         "axios": "^1.4.0",
         "fast-sort": "^3.4.0",

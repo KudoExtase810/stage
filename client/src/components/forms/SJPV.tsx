@@ -246,7 +246,7 @@ const SJPVForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
                 <div className="mt-6">
                     {isArchived ? (
                         <button
-                            className="btn btn-primary w-full !text-zinc-300"
+                            className="btn btn-primary w-full !text-base-content"
                             type="submit"
                             disabled
                         >

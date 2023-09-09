@@ -7,7 +7,7 @@ const {
     getAllUsers,
     setUserRating,
 } = require("../controllers/users");
-const { isAdmin } = require("../middlewares/auth");
+const { isAdmin, verifyToken } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -21,8 +21,7 @@ router.get("/:userId", getUser);
 
 // UPDATE
 router.put("/:userId", isAdmin, editUser);
-// TODO: create isAuth and add it below
-router.patch("/rating/:userId", setUserRating);
+router.patch("/rating/:userId", verifyToken, setUserRating);
 
 // DELETE
 router.delete("/:userId", isAdmin, deleteUser);

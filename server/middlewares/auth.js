@@ -1,6 +1,28 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+async function verifyToken(req, res, next) {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+
+        if (!token) {
+            return res.status(403).send("Access Denied");
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+            if (error) {
+                return res.status(401).json({
+                    message: "Invalid token or token has expired.",
+                });
+            }
+            req.user = decoded;
+            next();
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 async function isAdmin(req, res, next) {
     try {
         if (!req.headers.authorization)
@@ -120,4 +142,4 @@ async function isSJ(req, res, next) {
     }
 }
 
-module.exports = { isAdmin, isDAM, isSJ };
+module.exports = { verifyToken, isAdmin, isDAM, isSJ };
