@@ -53,6 +53,7 @@ const RateUs = ({ isOpen, close }: props) => {
                         Notez votre expérience avec notre application
                     </p>
                     <div className="rating rating-lg">
+            {/* loop around the ratings and change it by using the function handle rating loop using map */}
                         {[1, 2, 3, 4, 5].map((star) => (
                             <input
                                 onChange={() =>
