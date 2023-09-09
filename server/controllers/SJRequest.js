@@ -67,7 +67,7 @@ async function editRequest(req, res) {
 
         if (req.body.caseNumber) request.caseNumber = req.body.caseNumber;
         if (req.body.date) request.date = req.body.date;
-        if (req.body.place) request.place = req.body.place;
+        if (req.body.lieu) request.lieu = req.body.lieu;
         if (req.body.service) request.service = req.body.service;
         if (req.body.commission) request.commission = req.body.commission;
         if (req.body.subject) request.subject = req.body.subject;

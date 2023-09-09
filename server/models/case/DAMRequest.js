@@ -6,7 +6,7 @@ const DAMRequestSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    place: { type: String, required: true },
+    lieu: { type: String, required: true },
     commission: { type: String, required: true },
     service: { type: String, required: true },
     description: { type: String, maxLength: 1200 },

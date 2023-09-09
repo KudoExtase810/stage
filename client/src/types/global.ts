@@ -15,7 +15,7 @@ type DAMRequest = {
     _id: string;
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     commission: string;
     service: string;
     description?: string;
@@ -28,7 +28,7 @@ type SJRequest = {
     _id: string;
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     commission: string;
     service: string;
     subject: string;
@@ -39,7 +39,7 @@ type PVForm = {
     _id: string;
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     commission: string;
     service: string;
     subject: string;
@@ -50,7 +50,7 @@ type BillForm = {
     _id: string;
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     huissier: string;
     payment: string;
 };

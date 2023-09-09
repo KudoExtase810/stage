@@ -53,7 +53,7 @@ const AllRequests = ({
     const filterOptions = [
         { text: "Numéro d'affaire", value: "caseNumber" },
         { text: "Date", value: "date" },
-        { text: "Place", value: "place" },
+        { text: "Lieu", value: "lieu" },
         { text: "Commission", value: "commission" },
         { text: "Service", value: "service" },
         { text: "Description", value: "description" },

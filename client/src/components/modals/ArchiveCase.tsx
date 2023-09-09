@@ -29,7 +29,7 @@ const ArchiveCase = ({
             await axiosIns.patch(
                 `/cases/${fullCase!._id}/archive`,
                 {},
-                { headers: { authorozation: `Bearer ${token}` } }
+                { headers: { authorization: `Bearer ${token}` } }
             );
             toast.success("L'affaire a été archivée avec succès.");
 

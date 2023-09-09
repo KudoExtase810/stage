@@ -8,7 +8,7 @@ import { useEffect } from "react";
 type FormValues = {
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     commission: string;
     service: string;
     description?: string;
@@ -78,7 +78,7 @@ const DAMForm = ({
         if (existingData) {
             setValue("caseNumber", existingData.caseNumber);
             setValue("date", existingData.date);
-            setValue("place", existingData.place);
+            setValue("lieu", existingData.lieu);
             setValue("commission", existingData.commission);
             setValue("service", existingData.service);
             setValue("description", existingData.description);
@@ -116,21 +116,21 @@ const DAMForm = ({
                         </span>
                     </div>
                     <div className="form-control w-full">
-                        <label className="label" htmlFor="place">
-                            <span className="label-text">Place</span>
+                        <label className="label" htmlFor="lieu">
+                            <span className="label-text">Lieu</span>
                         </label>
                         <input
                             disabled={readOnlyMode}
-                            id="place"
-                            {...register("place", {
+                            id="lieu"
+                            {...register("lieu", {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Place"
+                            placeholder="Lieu"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.place?.message}
+                            {formState.errors.lieu?.message}
                         </span>
                     </div>
                 </div>

@@ -66,7 +66,7 @@ async function editBill(req, res) {
 
         if (req.body.caseNumber) bill.caseNumber = req.body.caseNumber;
         if (req.body.date) bill.date = req.body.date;
-        if (req.body.place) bill.place = req.body.place;
+        if (req.body.lieu) bill.lieu = req.body.lieu;
         if (req.body.service) bill.service = req.body.service;
         if (req.body.commission) bill.commission = req.body.commission;
         if (req.body.subject) bill.subject = req.body.subject;

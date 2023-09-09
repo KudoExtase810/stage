@@ -9,7 +9,7 @@ import { BiSolidLock } from "react-icons/bi";
 type FormValues = {
     caseNumber: string;
     date: string;
-    place: string;
+    lieu: string;
     commission: string;
     service: string;
     subject: string;
@@ -82,7 +82,7 @@ const SJPVForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
 
             setValue("caseNumber", res.data.caseNumber);
             setValue("date", res.data.date);
-            setValue("place", res.data.place);
+            setValue("lieu", res.data.lieu);
             setValue("commission", res.data.commission);
             setValue("service", res.data.service);
             setValue("subject", res.data.subject);
@@ -118,20 +118,20 @@ const SJPVForm = ({ fullCaseId, formId, nextPage, fullCases }: props) => {
                         </span>
                     </div>
                     <div className="form-control w-full">
-                        <label className="label" htmlFor="place">
-                            <span className="label-text">Place</span>
+                        <label className="label" htmlFor="lieu">
+                            <span className="label-text">Lieu</span>
                         </label>
                         <input
-                            id="place"
-                            {...register("place", {
+                            id="lieu"
+                            {...register("lieu", {
                                 required: "Ce champ est obligatoire.",
                             })}
                             type="text"
-                            placeholder="Place"
+                            placeholder="Lieu"
                             className="input input-bordered hover:border-primary"
                         />
                         <span className="label-text-alt text-red-600 text-sm mt-1 ml-1">
-                            {formState.errors.place?.message}
+                            {formState.errors.lieu?.message}
                         </span>
                     </div>
                 </div>

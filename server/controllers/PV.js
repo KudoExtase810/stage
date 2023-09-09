@@ -67,7 +67,7 @@ async function editPV(req, res) {
 
         if (req.body.caseNumber) pv.caseNumber = req.body.caseNumber;
         if (req.body.date) pv.date = req.body.date;
-        if (req.body.place) pv.place = req.body.place;
+        if (req.body.lieu) pv.lieu = req.body.lieu;
         if (req.body.service) pv.service = req.body.service;
         if (req.body.commission) pv.commission = req.body.commission;
         if (req.body.subject) pv.subject = req.body.subject;
