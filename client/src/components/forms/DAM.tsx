@@ -73,7 +73,7 @@ const DAMForm = ({
         }
     };
 
-    // set default field values to existing data if it exists ( if you're not creating )
+    // set default field values to existing data if it exists ( if you're not creating a new form )
     useEffect(() => {
         if (existingData) {
             setValue("caseNumber", existingData.caseNumber);
